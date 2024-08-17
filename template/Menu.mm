@@ -400,7 +400,7 @@ void restoreLastSession() {
     textfieldValue = [[UITextField alloc]initWithFrame:CGRectMake(menuWidth / 4 - 10, switchLabel.self.bounds.origin.x - 5 + switchLabel.self.bounds.size.height, menuWidth / 2, 20)];
     textfieldValue.layer.borderWidth = 2.0f;
     textfieldValue.layer.borderColor = inputBorderColor_.CGColor;
-    textfieldValue.layer.cornerRadius = 10.0f;
+    textfieldValue.layer.cornerRadius = 0.0f;
     textfieldValue.textColor = switchTitleColor;
     textfieldValue.textAlignment = NSTextAlignmentCenter;
     textfieldValue.delegate = self;
