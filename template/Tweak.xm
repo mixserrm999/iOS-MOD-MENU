@@ -34,17 +34,17 @@ void setup() {
   ];
 
   // Offset switch with multiple patches
-  [switches addOffsetSwitch:NSSENCRYPT("No Recoil")
-    description:NSSENCRYPT("only anination / camera / recoil")
+  [switches addOffsetSwitch:NSSENCRYPT("One Hit Kill")
+    description:NSSENCRYPT("Enemy will die instantly")
     offsets: {
-      ENCRYPTOFFSET("0x211CF38"),
-      ENCRYPTOFFSET("0x2106854"),
-      ENCRYPTOFFSET("0x210243C")
+      ENCRYPTOFFSET("0x1001BB2C0"),
+      ENCRYPTOFFSET("0x1002CB3B0"),
+      ENCRYPTOFFSET("0x1002CB3B8")
     }
     bytes: {
-      ENCRYPTHEX("00008052C0035FD6"),
-      ENCRYPTHEX("E003271EC0035FD6"),
-      ENCRYPTHEX("E003271EC0035FD6")
+      ENCRYPTHEX("0x00E0BF12C0035FD6"),
+      ENCRYPTHEX("0xC0035FD6"),
+      ENCRYPTHEX("0x00F0271E0008201EC0035FD6")
     }
   ];
 
