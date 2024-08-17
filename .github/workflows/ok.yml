@@ -1,6 +1,5 @@
 name: Auto NIC packager
 
-# On every push
 on:
   push:
     branches:
@@ -13,8 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      env:
-        VERSION: ""
+
     - name: Install Theos
       run: |
         sudo apt-get install fakeroot git perl clang build-essential -y
@@ -31,25 +29,30 @@ jobs:
         unzip master.zip -d $TMP
         mv $TMP/sdks-master/*.sdk $THEOS/sdks
         rm -r master.zip $TMP
-      
+
     - name: Get version
       run: echo "VERSION=$(cat ./template/versionCheck.sh | sed -n 2p | tail -c 7 | head -c 5)" >> $GITHUB_ENV
+
+    - name: Debug Environment
+      run: |
+        echo "VERSION=${{ env.VERSION }}"
+        ls -l
 
     - name: Make NIC package
       run: |
         source ~/.profile
-        rm ./iOS-Mod-Menu-Template-for-Theos.nic.tar || true # To force it to not fail even if the file does not exist
+        rm ./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar || true
         $THEOS/bin/nicify.pl ./template
-        
+
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3
       with:
         name: "Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
         path: "./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
-        
+
     - name: Create Release
       id: create-release
-      uses: actions/create-release@latest
+      uses: actions/create-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -58,9 +61,9 @@ jobs:
         body: ""
         draft: false
         prerelease: false
-    
+
     - name: Add Package to release
-      uses: actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -68,4 +71,3 @@ jobs:
         asset_path: "./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
         asset_name: "Ted2-Mod-Menu-Template v${{ env.VERSION }}.nic.tar"
         asset_content_type: application/x-tar
-          
