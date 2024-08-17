@@ -41,7 +41,7 @@ jobs:
     - name: Make NIC package
       run: |
         source ~/.profile
-        rm ./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar || true
+        rm "./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar" || true
         $THEOS/bin/nicify.pl ./template
 
     - name: Upload artifact
@@ -52,7 +52,7 @@ jobs:
 
     - name: Create Release
       id: create-release
-      uses: actions/create-release@v2
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -63,7 +63,7 @@ jobs:
         prerelease: false
 
     - name: Add Package to release
-      uses: actions/upload-release-asset@v2
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
