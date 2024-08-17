@@ -65,7 +65,7 @@ void setup() {
 
 
 /**********************************************************************************************************
-     You can customize the menu here.
+     You can customize the menu here..
      For colors, you can use hex color codes or UIColor itself
       - For the hex color #BD0000 you'd use: UIColorFromHex(0xBD0000)
       - For UIColor you can visit this site: https://www.uicolor.xyz/#/rgb-to-ui
