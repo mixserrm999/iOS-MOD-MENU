@@ -23,7 +23,7 @@ endif
 MOBILE_THEOS=1
 ifeq ($(MOBILE_THEOS),1)
   # path to your sdk
-  SDK_PATH = $(THEOS)/sdks/iPhoneOS11.2.sdk/
+  SDK_PATH = $(THEOS)/sdks/iPhoneOS13.6.sdk/
   $(info ===> Setting SYSROOT to $(SDK_PATH)...)
   SYSROOT = $(SDK_PATH)
 else
