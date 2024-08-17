@@ -4,7 +4,7 @@
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
 void setup() {
-
+  /*
   //patching offsets directly, without switch
   patchOffset(ENCRYPTOFFSET("0x1002DB3C8"), ENCRYPTHEX("0xC0035FD6"));
   patchOffset(ENCRYPTOFFSET("0x10020D2D4"), ENCRYPTHEX("0x00008052C0035FD6"));
@@ -15,12 +15,14 @@ void setup() {
   patchOffset(ENCRYPTOFFSET("0x10020D3A8"), ENCRYPTHEX("00F0271E0008201EC0035FD6"));
   // spaces are fine too
   patchOffset(ENCRYPTOFFSET("0x10020D3A8"), ENCRYPTHEX("00 F0 27 1E 00 08 20 1E C0 03 5F D6"));
-
+  */
 
   // Empty switch - usefull with hooking
-  [switches addSwitch:NSSENCRYPT("Masskill")
-    description:NSSENCRYPT("Teleport all enemies to you without them knowing")
+  [switches addSwitch:NSSENCRYPT("TEST")
+    description:NSSENCRYPT("TWST")
   ];
+
+  /*
 
   // Offset Switch with one patch
   [switches addOffsetSwitch:NSSENCRYPT("God Mode")
@@ -33,20 +35,24 @@ void setup() {
     }
   ];
 
+  */
+
   // Offset switch with multiple patches
-  [switches addOffsetSwitch:NSSENCRYPT("One Hit Kill")
-    description:NSSENCRYPT("Enemy will die instantly")
+  [switches addOffsetSwitch:NSSENCRYPT("No Recoil")
+    description:NSSENCRYPT("Remove Animation fireRate / camera")
     offsets: {
-      ENCRYPTOFFSET("0x1001BB2C0"),
-      ENCRYPTOFFSET("0x1002CB3B0"),
-      ENCRYPTOFFSET("0x1002CB3B8")
+      ENCRYPTOFFSET("0x211CF38"),
+      ENCRYPTOFFSET("0x2106854"),
+      ENCRYPTOFFSET("0x210243C")
     }
     bytes: {
-      ENCRYPTHEX("0x00E0BF12C0035FD6"),
-      ENCRYPTHEX("0xC0035FD6"),
-      ENCRYPTHEX("0x00F0271E0008201EC0035FD6")
+      ENCRYPTHEX("00008052C0035FD6"),
+      ENCRYPTHEX("E003271EC0035FD6"),
+      ENCRYPTHEX("E003271EC0035FD6")
     }
   ];
+
+  /*
 
   // Textfield Switch - used in hooking
   [switches addTextfieldSwitch:NSSENCRYPT("Custom Gold")
@@ -61,6 +67,8 @@ void setup() {
     maximumValue:10
     sliderColor:UIColorFromHex(0xBD0000)
   ];
+
+  */
 }
 
 
@@ -81,7 +89,7 @@ void setupMenu() {
 
   // If a game uses a framework as base executable, you can enter the name here.
   // For example: UnityFramework, in that case you have to replace NULL with "UnityFramework" (note the quotes)
-  [menu setFrameworkName:NULL];
+  [menu setFrameworkName:UnityFramework];
 
   menu = [[Menu alloc]  
             initWithTitle:NSSENCRYPT("@@APPNAME@@ - Mod Menu")
