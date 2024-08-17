@@ -89,7 +89,7 @@ void setupMenu() {
 
   // If a game uses a framework as base executable, you can enter the name here.
   // For example: UnityFramework, in that case you have to replace NULL with "UnityFramework" (note the quotes)
-  [menu setFrameworkName:UnityFramework];
+  [menu setFrameworkName:"UnityFramework"];
 
   menu = [[Menu alloc]  
             initWithTitle:NSSENCRYPT("@@APPNAME@@ - Mod Menu")
