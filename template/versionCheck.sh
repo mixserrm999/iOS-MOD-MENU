@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION='1.0.1'
+VERSION='0.1.0'
 # Don't remove the above line. Serves as the version this script will fetch. Only update when a new version is out.
 
 ERROR='\033[1;31m[*] Error:\033[1;37m '
@@ -24,6 +24,6 @@ if ! [ $githubReachable == 0  ]; then
 	exit 0
 fi
 
-if ! [ $(curl -Ls https://github.com/joeyjurjens/iOS-Mod-Menu-Template-for-Theos/raw/master/template/versionCheck.sh | sed -n 2p) = "VERSION='$VERSION'"  ]; then
+if ! [ $(curl -Ls https://github.com/mixserrm999/iOS-MOD-MENU/raw/main/template/versionCheck.sh | sed -n 2p) = "VERSION='$VERSION'"  ]; then
 	echo -e "${SUCCESS}A newer version of the template is available!"
 fi

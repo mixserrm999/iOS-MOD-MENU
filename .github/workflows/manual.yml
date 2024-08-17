@@ -44,8 +44,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: "Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
-        path: "./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
+        name: "SERMIX MOD MENU v${{ env.VERSION }}.nic.tar"
+        path: "./SERMIX MOD MENU v${{ env.VERSION }}.nic.tar"
         
     - name: Create Release
       id: create-release
@@ -65,7 +65,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }}
-        asset_path: "./Ted2's Mod Menu Template v${{ env.VERSION }}.nic.tar"
-        asset_name: "Ted2-Mod-Menu-Template v${{ env.VERSION }}.nic.tar"
+        asset_path: "./SERMIX MOD MENU v${{ env.VERSION }}.nic.tar"
+        asset_name: "SERMIX MOD MENU v${{ env.VERSION }}.nic.tar"
         asset_content_type: application/x-tar
           
