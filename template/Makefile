@@ -14,7 +14,7 @@ ifeq ($(ROOTLESS), 1)
 THEOS_PACKAGE_SCHEME = rootless
 endif 
 
-# only set this  to 1 if you are on mobile theos
+# only set this  to 1 if you are on mobile theos.
 # assuming you have an sdk at your theos sdks directory
 # this will include c++ headers and other needed headers for your project so you don't need to manually include them or something like that
 # if some c++ headers are still missing in your sdk like "initializer_list" then manually copy them to your c++ headers directory and not your project folder
