@@ -32,11 +32,12 @@ endif
 
 
 ## Common frameworks ##
-PROJ_COMMON_FRAMEWORKS = UIKit Foundation Security QuartzCore CoreGraphics CoreText
+PROJ_COMMON_FRAMEWORKS = UIKit Foundation Security QuartzCore CoreGraphics CoreText AVFoundation Accelerate GLKit SystemConfiguration GameController
 
 ## source files ##
 KITTYMEMORY_SRC = $(wildcard KittyMemory/*.cpp)
 SCLALERTVIEW_SRC =  $(wildcard SCLAlertView/*.m)
+IMGUI_SRC = $(wildcard IMGUI/*.cpp) $(wildcard IMGUI/*.mm)
 MENU_SRC = Menu.mm
 
 include $(THEOS)/makefiles/common.mk
@@ -52,7 +53,7 @@ ifeq ($(IGNORE_WARNINGS),1)
 endif
 
 
-@@PROJECTNAME@@_FILES = Tweak.xm $(MENU_SRC) $(KITTYMEMORY_SRC) $(SCLALERTVIEW_SRC)
+@@PROJECTNAME@@_FILES = Tweak.xm $(MENU_SRC) $(KITTYMEMORY_SRC) $(SCLALERTVIEW_SRC) $(IMGUI_SRC)
 
 @@PROJECTNAME@@_LIBRARIES += substrate
 
