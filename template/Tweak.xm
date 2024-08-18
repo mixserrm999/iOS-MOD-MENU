@@ -5,6 +5,27 @@
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
+uintptr_t baseAddress = 0x2173308; // Base Address ที่คุณค้นพบ
+uintptr_t headOffset = 0x18;
+uintptr_t spineOffset = 0x20;
+uintptr_t hipsOffset = 0x28;
+
+uintptr_t headAddress = baseAddress + headOffset;
+uintptr_t spineAddress = baseAddress + spineOffset;
+uintptr_t hipsAddress = baseAddress + hipsOffset;
+
+// อ่านข้อมูลจาก address (ปรับเป็นประเภทที่ต้องการ)
+Transform headTransform = *(Transform*)headAddress;
+Transform spineTransform = *(Transform*)spineAddress;
+Transform hipsTransform = *(Transform*)hipsAddress;
+
+// แสดงข้อมูลใน ImGui
+ImGui::Begin("Transform Info");
+ImGui::Text("Head Position: %f, %f, %f", headTransform.position.x, headTransform.position.y, headTransform.position.z);
+ImGui::Text("Spine Position: %f, %f, %f", spineTransform.position.x, spineTransform.position.y, spineTransform.position.z);
+ImGui::Text("Hips Position: %f, %f, %f", hipsTransform.position.x, hipsTransform.position.y, hipsTransform.position.z);
+ImGui::End();
+
 void setup() {
   /*
   //patching offsets directly, without switch
