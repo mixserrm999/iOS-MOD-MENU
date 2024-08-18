@@ -84,7 +84,7 @@ Switches *switches = [Switches alloc];
     [self.header addSubview:menuIcon];
 
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.header.bounds), menuWidth_, CGRectGetHeight(self.bounds) - CGRectGetHeight(self.header.bounds))];
-    scrollView.backgroundColor = switchOffColor_;
+    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5];
     [self addSubview:scrollView];
 
     // we need this for the switches, do not remove.
@@ -326,7 +326,7 @@ void restoreLastSession() {
 
     self = [super initWithFrame:CGRectMake(-1, scrollViewX + scrollViewHeight - 1, menuWidth + 2, 50)];
     self.backgroundColor = [UIColor clearColor];
-    self.layer.borderWidth = 0.0f;
+    self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
 
     switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
