@@ -27,7 +27,7 @@ UIScrollView *scrollView;
 CGFloat menuWidth;
 CGFloat scrollViewX;
 NSString *credits;
-UIColor *switchOnColor = [UIColor redColor];
+UIColor *switchOnColor;
 NSString *switchTitleFont;
 UIColor *switchTitleColor;
 UIColor *infoButtonColor;
@@ -248,7 +248,8 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    UIColor *clearColor = [UIColor clearColor];
+    UIColor *clearColor = [UIColor greenColor];  // on
+    UIColor *switchOnColor = [UIColor redColor]; // off
 
     [UIView animateWithDuration:0.3 animations:^ {
         if([switch_ isKindOfClass:[TextFieldSwitch class]]) {
