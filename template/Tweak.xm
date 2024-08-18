@@ -5,27 +5,6 @@
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
-uintptr_t baseAddress = 0x2173308; // Base Address ที่คุณค้นพบ
-uintptr_t headOffset = 0x18;
-uintptr_t spineOffset = 0x20;
-uintptr_t hipsOffset = 0x28;
-
-uintptr_t headAddress = baseAddress + headOffset;
-uintptr_t spineAddress = baseAddress + spineOffset;
-uintptr_t hipsAddress = baseAddress + hipsOffset;
-
-// อ่านข้อมูลจาก address (ปรับเป็นประเภทที่ต้องการ)
-Transform headTransform = *(Transform*)headAddress;
-Transform spineTransform = *(Transform*)spineAddress;
-Transform hipsTransform = *(Transform*)hipsAddress;
-
-// แสดงข้อมูลใน ImGui
-ImGui::Begin("Transform Info");
-ImGui::Text("Head Position: %f, %f, %f", headTransform.position.x, headTransform.position.y, headTransform.position.z);
-ImGui::Text("Spine Position: %f, %f, %f", spineTransform.position.x, spineTransform.position.y, spineTransform.position.z);
-ImGui::Text("Hips Position: %f, %f, %f", hipsTransform.position.x, hipsTransform.position.y, hipsTransform.position.z);
-ImGui::End();
-
 void setup() {
   /*
   //patching offsets directly, without switch
@@ -45,20 +24,36 @@ void setup() {
     description:NSSENCRYPT("TWST")
   ];
 
-  /*
-
   // Offset Switch with one patch
-  [switches addOffsetSwitch:NSSENCRYPT("God Mode")
-    description:NSSENCRYPT("You can't die")
+  [switches addOffsetSwitch:NSSENCRYPT("Show MiniMap")
+    description:NSSENCRYPT("show player on mini map")
     offsets: {
-      ENCRYPTOFFSET("0x1005AB148")
+      ENCRYPTOFFSET("0x2160628")
     }
     bytes: {
-      ENCRYPTHEX("0x00E0BF12C0035FD6")
+      ENCRYPTHEX("20008052C0035FD6")
     }
   ];
 
-  */
+  [switches addOffsetSwitch:NSSENCRYPT("no spread")
+    description:NSSENCRYPT("no spread shooting")
+    offsets: {
+      ENCRYPTOFFSET("0x22C72EC")
+    }
+    bytes: {
+      ENCRYPTHEX("E003271EC0035FD6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("On Reload")
+    description:NSSENCRYPT("Reload")
+    offsets: {
+      ENCRYPTOFFSET("0x2166184")
+    }
+    bytes: {
+      ENCRYPTHEX("00008052C0035FD6")
+    }
+  ];
 
   // Offset switch with multiple patches
   [switches addOffsetSwitch:NSSENCRYPT("No Recoil")
@@ -74,6 +69,24 @@ void setup() {
       ENCRYPTHEX("E003271EC0035FD6")
     }
   ];
+
+  float customMoveSpeed = 0.0f;
+
+  void onSliderSwitchChanged(float newValue) {
+      customMoveSpeed = newValue;
+      patchOffset(ENCRYPTOFFSET("0x212A268"), [NSString stringWithFormat:@"%0.2f", customMoveSpeed]);
+  }
+
+  [switches addSliderSwitch:NSSENCRYPT("Custom Move Speed")
+    description:NSSENCRYPT("Set your custom move speed")
+    minimumValue:0
+    maximumValue:10
+    sliderColor:UIColorFromHex(0xBD0000)
+    onValueChanged:^(float newValue) {
+        onSliderSwitchChanged(newValue);
+    }
+  ];
+
 
   /*
 
