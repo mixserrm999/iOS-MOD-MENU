@@ -64,6 +64,9 @@ Switches *switches = [Switches alloc];
     self = [super initWithFrame:CGRectMake(0,0,menuWidth_, maxVisibleSwitches_ * 50 + 50)];
     self.center = mainWindow.center;
     self.layer.opacity = 0.0f;
+    // Set border for the main menu view
+    self.layer.borderColor = [UIColor whiteColor].CGColor; // กำหนดสีของ border
+    self.layer.borderWidth = 2.0f; // กำหนดความกว้างของ border
 
     self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 50)];
     self.header.backgroundColor = headerColor_;
@@ -84,7 +87,7 @@ Switches *switches = [Switches alloc];
     [self.header addSubview:menuIcon];
 
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.header.bounds), menuWidth_, CGRectGetHeight(self.bounds) - CGRectGetHeight(self.header.bounds))];
-    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5];
+    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5]; // BodyBackground
     [self addSubview:scrollView];
 
     // we need this for the switches, do not remove.
