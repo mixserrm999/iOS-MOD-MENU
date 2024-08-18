@@ -68,6 +68,8 @@ Switches *switches = [Switches alloc];
     // Set border for the main menu view
     self.layer.borderColor = blueColor.CGColor; // กำหนดสีของ border
     self.layer.borderWidth = 2.0f; // กำหนดความกว้างของ border
+    self.layer.cornerRadius = 10.0f; // กำหนดให้มุมโค้งมน
+    self.layer.masksToBounds = YES;
 
     self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 50)];
     self.header.backgroundColor = headerColor_;
