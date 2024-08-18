@@ -60,12 +60,13 @@ Switches *switches = [Switches alloc];
     infoButtonColor = infoButtonColor_;
     menuButtonBase64 = menuButtonBase64_;
 
+    UIColor *blueColor = [UIColor colorWithRed:0.0 green:0.5 blue:1.0 alpha:1.0];
     // Base of the Menu UI.
     self = [super initWithFrame:CGRectMake(0,0,menuWidth_, maxVisibleSwitches_ * 50 + 50)];
     self.center = mainWindow.center;
     self.layer.opacity = 0.0f;
     // Set border for the main menu view
-    self.layer.borderColor = [UIColor whiteColor].CGColor; // กำหนดสีของ border
+    self.layer.borderColor = blueColor.CGColor; // กำหนดสีของ border
     self.layer.borderWidth = 2.0f; // กำหนดความกว้างของ border
 
     self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 50)];
@@ -73,6 +74,8 @@ Switches *switches = [Switches alloc];
     CAShapeLayer *headerLayer = [CAShapeLayer layer];
     headerLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.header.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
     self.header.layer.mask = headerLayer;
+    self.header.layer.borderColor = blueColor.CGColor;
+    self.header.layer.borderWidth = 2.0f;
     [self addSubview:self.header];
 
     NSData* data = [[NSData alloc] initWithBase64EncodedString:menuIconBase64_ options:0];
@@ -106,6 +109,9 @@ Switches *switches = [Switches alloc];
     CAShapeLayer *footerLayer = [CAShapeLayer layer];
     footerLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.footer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
     self.footer.layer.mask = footerLayer;
+    // Set border for the footer with blue color
+    self.footer.layer.borderColor = blueColor.CGColor;
+    self.footer.layer.borderWidth = 2.0f;
     [self addSubview:self.footer];
 
     UIPanGestureRecognizer *dragMenuRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(menuDragged:)];
