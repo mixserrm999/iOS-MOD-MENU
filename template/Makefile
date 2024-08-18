@@ -44,7 +44,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = @@PROJECTNAME@@
 
-@@PROJECTNAME@@_CFLAGS = -fobjc-arc
+@@PROJECTNAME@@_CFLAGS = -fobjc-arc -Wno-deprecated-declarations -Wno-unused-variable -Wno-unused-value
 @@PROJECTNAME@@_CCFLAGS = -std=c++11 -fno-rtti -fno-exceptions -DNDEBUG
 
 ifeq ($(IGNORE_WARNINGS),1)
