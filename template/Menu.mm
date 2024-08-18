@@ -27,7 +27,7 @@ UIScrollView *scrollView;
 CGFloat menuWidth;
 CGFloat scrollViewX;
 NSString *credits;
-UIColor *switchOnColor;
+UIColor *switchOnColor = [UIColor redColor];
 NSString *switchTitleFont;
 UIColor *switchTitleColor;
 UIColor *infoButtonColor;
