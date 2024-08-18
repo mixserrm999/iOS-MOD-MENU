@@ -65,7 +65,7 @@ Switches *switches = [Switches alloc];
     self.center = mainWindow.center;
     self.layer.opacity = 0.0f;
 
-    self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 10)];
+    self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 50)];
     self.header.backgroundColor = headerColor_;
     CAShapeLayer *headerLayer = [CAShapeLayer layer];
     headerLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.header.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
