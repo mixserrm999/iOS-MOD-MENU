@@ -109,7 +109,7 @@ void setup() {
         NOTE: remove the ";" when you copy your UIColor from there!
      
      Site to find your perfect font for the menu: http://iosfonts.com/  --> view on mac or ios device
-     See comment next to maxVisibleSwitches!!!!
+     See comment next to maxVisibleSwitches!!!!!
 
      menuIcon & menuButton is base64 data, upload a image to: https://www.browserling.com/tools/image-to-base64 \
      then replace that string with mine.
