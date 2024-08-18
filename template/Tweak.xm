@@ -5,13 +5,6 @@
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
-float customMoveSpeed = 0.0f;
-
-void updateMoveSpeed(float speed) {
-
-    patchOffset(ENCRYPTOFFSET("0x212A268"), [NSString stringWithFormat:@"%0.2f", speed]);
-}
-
 void setup() {
   /*
   //patching offsets directly, without switch
@@ -77,18 +70,34 @@ void setup() {
     }
   ];
 
-  [switches addSliderSwitch:NSSENCRYPT("Custom Move Speed")
-      description:NSSENCRYPT("Set your custom move speed")
-      minimumValue:0
-      maximumValue:10
-      sliderColor:UIColorFromHex(0xBD0000)
-      onValueChanged:^(float newValue) {
-          customMoveSpeed = newValue;
-          updateMoveSpeed(customMoveSpeed);
-      }
-    ];
+[swiches addSliderSwitch:NSSENCRYPT("Custom Move Speed")
+  description:NSSENCRYPT("Set your custom move speed")
+  minimumValue:0
+  maximumValue:10
+  sliderColor:UIColorFromHex(0xBD0000)
+  action:^(float value) {
+    [self updatePatchOffsetWithValue:value];
+  }];
 
-    updateMoveSpeed(customMoveSpeed);
+- (void)updatePatchOffsetWithValue:(float)value {
+  int adjustedValue = (int)value;
+  
+  switch (adjustedValue) {
+    case 0:
+      patchOffset(ENCRYPTOFFSET("0x10020D3A8"), ENCRYPTHEX("00 F0 27 1E 00 08 20 1E C0 03 5F D6"));
+      break;
+    case 1:
+      patchOffset(ENCRYPTOFFSET("0x10020D3A8"), ENCRYPTHEX("00 F0 27 1E 00 08 20 1E C0 03 5F D7"));
+      break;
+    case 2:
+      patchOffset(ENCRYPTOFFSET("0x10020D3A8"), ENCRYPTHEX("00 F0 27 1E 00 08 20 1E C0 03 5F D8"));
+      break;
+
+    default:
+
+      break;
+  }
+}
 
 
   /*
