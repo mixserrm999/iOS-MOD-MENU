@@ -5,6 +5,13 @@
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
+float customMoveSpeed = 0.0f;
+
+void updateMoveSpeed(float speed) {
+
+    patchOffset(ENCRYPTOFFSET("0x212A268"), [NSString stringWithFormat:@"%0.2f", speed]);
+}
+
 void setup() {
   /*
   //patching offsets directly, without switch
@@ -70,22 +77,18 @@ void setup() {
     }
   ];
 
-  float customMoveSpeed = 0.0f;
-
-  void onSliderSwitchChanged(float newValue) {
-      customMoveSpeed = newValue;
-      patchOffset(ENCRYPTOFFSET("0x212A268"), [NSString stringWithFormat:@"%0.2f", customMoveSpeed]);
-  }
-
   [switches addSliderSwitch:NSSENCRYPT("Custom Move Speed")
-    description:NSSENCRYPT("Set your custom move speed")
-    minimumValue:0
-    maximumValue:10
-    sliderColor:UIColorFromHex(0xBD0000)
-    onValueChanged:^(float newValue) {
-        onSliderSwitchChanged(newValue);
-    }
-  ];
+      description:NSSENCRYPT("Set your custom move speed")
+      minimumValue:0
+      maximumValue:10
+      sliderColor:UIColorFromHex(0xBD0000)
+      onValueChanged:^(float newValue) {
+          customMoveSpeed = newValue;
+          updateMoveSpeed(customMoveSpeed);
+      }
+    ];
+
+    updateMoveSpeed(customMoveSpeed);
 
 
   /*
