@@ -248,8 +248,7 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    UIColor *clearColor = [UIColor greenColor];  // on
-    UIColor *switchOnColor = [UIColor redColor]; // off
+    UIColor *clearColor = [UIColor clearColor];
 
     [UIView animateWithDuration:0.3 animations:^ {
         if([switch_ isKindOfClass:[TextFieldSwitch class]]) {

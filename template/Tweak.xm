@@ -98,7 +98,7 @@ void setupMenu() {
             credits:NSSENCRYPT("This Mod Menu has been made by @@USER@@, do not share this without proper credits and my permission. \n\nEnjoy!")
             headerColor:UIColorFromHex(0x2E2E2E)
             switchOffColor:[UIColor darkGrayColor]
-            switchOnColor:UIColorFromHex(0x00ADF2)
+            switchOnColor:UIColorFromHex(0x00F500)
             switchTitleFont:NSSENCRYPT("Copperplate-Bold")
             switchTitleColor:[UIColor whiteColor]
             infoButtonColor:UIColorFromHex(0xBD0000)
