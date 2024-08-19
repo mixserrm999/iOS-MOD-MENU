@@ -67,7 +67,7 @@ Switches *switches = [Switches alloc];
     self.layer.opacity = 0.0f;
     // Set border for the main menu view
     self.layer.borderColor = blueColor.CGColor; // กำหนดสีของ border
-    self.layer.borderWidth = 2.0f; // กำหนดความกว้างของ border
+    self.layer.borderWidth = 0.0f; // กำหนดความกว้างของ border
     self.layer.cornerRadius = 10.0f; // กำหนดให้มุมโค้งมน
     self.layer.masksToBounds = YES;
 
@@ -77,7 +77,7 @@ Switches *switches = [Switches alloc];
     headerLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.header.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
     self.header.layer.mask = headerLayer;
     self.header.layer.borderColor = blueColor.CGColor;
-    self.header.layer.borderWidth = 2.0f;
+    self.header.layer.borderWidth = 0.0f;
     [self addSubview:self.header];
 
     NSData* data = [[NSData alloc] initWithBase64EncodedString:menuIconBase64_ options:0];
@@ -113,7 +113,7 @@ Switches *switches = [Switches alloc];
     self.footer.layer.mask = footerLayer;
     // Set border for the footer with blue color
     self.footer.layer.borderColor = blueColor.CGColor;
-    self.footer.layer.borderWidth = 2.0f;
+    self.footer.layer.borderWidth = 0.0f;
     [self addSubview:self.footer];
 
     UIPanGestureRecognizer *dragMenuRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(menuDragged:)];
@@ -336,7 +336,7 @@ void restoreLastSession() {
     }
 
     // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight - 1, 40, 30)];
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 30)];
     self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
