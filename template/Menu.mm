@@ -355,10 +355,12 @@ void restoreLastSession() {
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
     infoButton.tintColor = infoButtonColor;
+    infoButton.enabled = YES; // ตรวจสอบว่าปุ่มถูกเปิดใช้งาน
 
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+    
 
     return self;
 }
