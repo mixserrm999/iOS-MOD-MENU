@@ -343,7 +343,7 @@ void restoreLastSession() {
     self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 0, menuWidth, 30)];
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
@@ -359,7 +359,6 @@ void restoreLastSession() {
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
-    [self bringSubviewToFront:infoButton];
 
     return self;
 }
