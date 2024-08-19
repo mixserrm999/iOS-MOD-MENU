@@ -254,32 +254,27 @@ void restoreLastSession() {
 - (void)addSwitchToMenu:(id)switch_ {
     [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
 
-    // คำนวณตำแหน่งสำหรับ switch แต่ละตัว
-    int switchesPerRow = 2; // จำนวน switch ต่อแถว
-    int currentSwitchCount = scrollView.subviews.count; // นับจำนวน switch ที่มีอยู่
-    int row = currentSwitchCount / switchesPerRow;
-    int column = currentSwitchCount % switchesPerRow;
-
-    CGFloat switchWidth = 30;
+    // Calculate position for switch
+    NSUInteger index = [scrollView.subviews indexOfObject:switch_];
+    CGFloat switchWidth = 40;
     CGFloat switchHeight = 30;
-    CGFloat xPadding = 150;
-    CGFloat yPadding = 10;
+    CGFloat spacing = 10; // Space between switches
+    CGFloat rowWidth = (menuWidth - spacing) / 2;
+    
+    NSUInteger row = index / 2;
+    NSUInteger column = index % 2;
 
-    CGFloat switchX = column * (switchWidth + xPadding);
-    CGFloat switchY = row * (switchHeight + yPadding);
+    CGFloat x = column * (switchWidth + spacing);
+    CGFloat y = row * (switchHeight + spacing);
 
-    UIView *switchView = (UIView *)switch_;  // แปลงชนิดเป็น UIView
-    switchView.frame = CGRectMake(switchX, switchY, switchWidth, switchHeight);
-
-    [scrollView addSubview:switchView];
-
-    // ปรับขนาด scrollViewHeight ถ้า switch อยู่ในแถวใหม่
-    if (column == switchesPerRow - 1) {
-        scrollViewHeight += switchHeight + yPadding;
-        scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
-    }
+    // Set the frame for the switch
+    switch_.frame = CGRectMake(x, y, switchWidth, switchHeight);
+    
+    // Update scrollView content size
+    scrollViewHeight = CGRectGetMaxY(switch_.frame) + spacing;
+    scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
+    [scrollView addSubview:switch_];
 }
-
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
     UIColor *clearColor = [UIColor clearColor];
@@ -338,65 +333,56 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
+    UILabel *switchLabel;
+    UIButton *infoButton;
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
     description = description_;
     preferencesKey = hackName_;
 
-    if(offsets_.size() != bytes_.size()){
+    if (offsets_.size() != bytes_.size()) {
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
     } else {
-        // For each offset, we create a MemoryPatch.
-        for(int i = 0; i < offsets_.size(); i++) {
+        // Create MemoryPatches
+        for (int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
-            if(patch.isValid()) {
-              memoryPatches.push_back(patch);
+            if (patch.isValid()) {
+                memoryPatches.push_back(patch);
             } else {
-              [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+                [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
             }
         }
     }
 
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, 0, 40, 30)];
-    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
+    // Initialize OffsetSwitch with smaller frame
+    self = [super initWithFrame:CGRectMake(0, 0, 40, 30)];
+    self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
+    self.clipsToBounds = NO;
 
-    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+    // Setup switchLabel with proper frame
+    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
     switchLabel.text = hackName_;
-    switchLabel.textColor = switchTitleColor;
-    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
-    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
-
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    switchLabel.textColor = [UIColor whiteColor];
+    switchLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    switchLabel.textAlignment = NSTextAlignmentLeft;
+    switchLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self addSubview:switchLabel];
 
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
-    infoButton.tintColor = infoButtonColor;
-
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
+    // Setup infoButton
+    infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(30, 0, 20, 20);
+    infoButton.tintColor = [UIColor whiteColor];
+    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:infoButton];
-    
 
     return self;
 }
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
-    if(gestureRec.state == UIGestureRecognizerStateEnded) {
+    if (gestureRec.state == UIGestureRecognizerStateEnded) {
         [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
         menu.layer.opacity = 0.0f;
     }
