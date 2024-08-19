@@ -349,6 +349,10 @@ void restoreLastSession() {
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
     switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
+
+    // เพิ่ม border ให้กับ switchLabel
+    switchLabel.layer.borderWidth = 1.0f;
+    switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
 
@@ -356,20 +360,24 @@ void restoreLastSession() {
     infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
-    // ใช้ addTarget:action:forControlEvents: แทน UITapGestureRecognizer
-    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:infoButton];
+    // เพิ่ม border ให้กับ switchLabel
+    infoButton.layer.borderWidth = 1.0f;
+    infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
 
+    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [infoButton addGestureRecognizer:infoTap];
+    [self addSubview:infoButton];
     
 
     return self;
 }
 
-- (void)showInfo:(UIButton *)sender {
-    [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
-    menu.layer.opacity = 0.0f;
+-(void)showInfo:(UIGestureRecognizer *)gestureRec {
+    if(gestureRec.state == UIGestureRecognizerStateEnded) {
+        [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
+        menu.layer.opacity = 0.0f;
+    }
 }
-
 
 -(NSString *)getPreferencesKey {
     return preferencesKey;
