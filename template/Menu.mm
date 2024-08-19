@@ -261,43 +261,26 @@ void restoreLastSession() {
     it also add's an action for when the switch is being clicked.
 ********************************************************************/
 - (void)addSwitchToMenu:(UIButton *)switch_ {
-    // กำหนดขนาดของปุ่ม
-    [switch_ setTranslatesAutoresizingMaskIntoConstraints:NO]; // ปิดการปรับขนาดอัตโนมัติ
-    
-    // สร้างข้อกำหนดในการจัดตำแหน่งของปุ่ม
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:switch_
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:nil
-                                                                     attribute:NSLayoutAttributeNotAnAttribute
-                                                                    multiplier:1.0
-                                                                      constant:10]; // กำหนดความกว้างของปุ่ม
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:switch_
-                                                                      attribute:NSLayoutAttributeHeight
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:nil
-                                                                      attribute:NSLayoutAttributeNotAnAttribute
-                                                                     multiplier:1.0
-                                                                       constant:10]; // กำหนดความสูงของปุ่ม
-    [switch_ addConstraints:@[widthConstraint, heightConstraint]];
+    // กำหนดปุ่มให้เหมาะสม
+    [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
+    switch_.frame = CGRectMake(0, 0, 50, 50); // กำหนดขนาดของปุ่ม
 
-    // ตรวจสอบแถวปัจจุบันและสร้างแถวใหม่ถ้าจำเป็น
-    if (!self.currentRowStackView || (self.currentRowStackView.arrangedSubviews.count >= self.numberOfButtonsPerRow)) {
-        self.currentRowStackView = [[UIStackView alloc] init];
-        self.currentRowStackView.axis = UILayoutConstraintAxisHorizontal;
-        self.currentRowStackView.spacing = 10;
-        self.currentRowStackView.alignment = UIStackViewAlignmentFill;
-        self.currentRowStackView.distribution = UIStackViewDistributionFill;
-        [self.stackView addArrangedSubview:self.currentRowStackView];
+    // ตรวจสอบว่ามี stackView อยู่แล้วหรือยัง
+    if (!currentRowStackView || (currentRowStackView.arrangedSubviews.count >= numberOfButtonsPerRow)) {
+        currentRowStackView = [[UIStackView alloc] init];
+        currentRowStackView.axis = UILayoutConstraintAxisHorizontal;
+        currentRowStackView.spacing = 10;
+        currentRowStackView.alignment = UIStackViewAlignmentFill;
+        currentRowStackView.distribution = UIStackViewDistributionFillEqually;
+        [stackView addArrangedSubview:currentRowStackView];
     }
 
     // เพิ่มปุ่มไปยังแถวปัจจุบัน
-    [self.currentRowStackView addArrangedSubview:switch_];
+    [currentRowStackView addArrangedSubview:switch_];
 
     // อัปเดตขนาดของ scrollView
     [self updateScrollViewContentSize];
 }
-
 
 - (void)updateScrollViewContentSize {
     CGFloat contentHeight = stackView.frame.size.height;
@@ -359,65 +342,98 @@ void restoreLastSession() {
     OFFSET SWITCH STARTS HERE!
 *********************************/
 
-@implementation OffsetSwitch {
+@interface OffsetSwitch : UIView {
     std::vector<MemoryPatch> memoryPatches;
+    UITapGestureRecognizer *tapRecognizer;
+    NSInteger tapCount;
 }
+@end
+
+@implementation OffsetSwitch
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
-    description = description_;
-    preferencesKey = hackName_;
+    self = [super initWithFrame:CGRectMake(20, 100, 40, 30)];
+    if (self) {
+        description = description_;
+        preferencesKey = hackName_;
+        tapCount = 0;
 
-    if(offsets_.size() != bytes_.size()){
-        [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
-    } else {
-        // For each offset, we create a MemoryPatch.
-        for(int i = 0; i < offsets_.size(); i++) {
+        if (offsets_.size() != bytes_.size()) {
+            [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%lu) is not equal to the bytes array input count (%lu)", (unsigned long)offsets_.size(), (unsigned long)bytes_.size()]];
+            return nil;
+        }
+        
+        // Create memory patches
+        for (int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
-            if(patch.isValid()) {
-              memoryPatches.push_back(patch);
+            if (patch.isValid()) {
+                memoryPatches.push_back(patch);
             } else {
-              [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+                [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+                return nil;
             }
         }
+
+        self.backgroundColor = [UIColor clearColor];
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.clipsToBounds = NO;
+
+        // Configure switchLabel with Auto Layout
+        switchLabel = [[UILabel alloc] init];
+        switchLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        switchLabel.text = hackName_;
+        switchLabel.textColor = switchTitleColor;
+        switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
+        switchLabel.textAlignment = NSTextAlignmentLeft;
+        switchLabel.numberOfLines = 1;
+
+        [self addSubview:switchLabel];
+        
+        [NSLayoutConstraint activateConstraints:@[
+            [switchLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:70],
+            [switchLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-20],
+            [switchLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+            [switchLabel.heightAnchor constraintEqualToConstant:30]
+        ]];
+        
+        // Add info button
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
+        infoButton.alpha = 0.0;
+        infoButton.tintColor = infoButtonColor;
+        
+        UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+        [infoButton addGestureRecognizer:infoTap];
+        [self addSubview:infoButton];
+
+        // Add tap recognizer
+        tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tapRecognizer.numberOfTapsRequired = 1; // Set to 1 initially
+        [self addGestureRecognizer:tapRecognizer];
     }
-
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 30)];
-    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
-    self.layer.borderWidth = 1.0f;
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
-
-    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
-    switchLabel.text = hackName_;
-    switchLabel.textColor = switchTitleColor;
-    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
-    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
-
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    // switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
-    [self addSubview:switchLabel];
-
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
-    infoButton.alpha = 0.0;
-    infoButton.tintColor = infoButtonColor;
-
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
-    [self addSubview:infoButton];
     
-
     return self;
 }
+
+// Handle double tap
+- (void)handleTap:(UITapGestureRecognizer *)recognizer {
+    tapCount++;
+    if (tapCount == 2) {
+        [self switchClicked:self];
+        tapCount = 0; // Reset tap count after double tap
+    } else {
+        // Reset tap count if not a double tap
+        [self performSelector:@selector(resetTapCount) withObject:nil afterDelay:0.3];
+    }
+}
+
+// Reset tap count after delay
+- (void)resetTapCount {
+    tapCount = 0;
+}
+
+
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
     if(gestureRec.state == UIGestureRecognizerStateEnded) {
