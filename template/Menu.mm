@@ -260,9 +260,9 @@ void restoreLastSession() {
     int row = currentSwitchCount / switchesPerRow;
     int column = currentSwitchCount % switchesPerRow;
 
-    CGFloat switchWidth = 40;
+    CGFloat switchWidth = 30;
     CGFloat switchHeight = 30;
-    CGFloat xPadding = 100;
+    CGFloat xPadding = 150;
     CGFloat yPadding = 10;
 
     CGFloat switchX = column * (switchWidth + xPadding);
