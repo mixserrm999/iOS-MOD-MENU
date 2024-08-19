@@ -80,8 +80,8 @@ void setup() {
     description:NSSENCRYPT("TWST")
   ];
 
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
+  [switches addSwitch:NSSENCRYPT("TEST3")
+    description:NSSENCRYPT("TEST3")
   ];
 
   // Offset Switch with one patch
