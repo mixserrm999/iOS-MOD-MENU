@@ -336,7 +336,7 @@ void restoreLastSession() {
     }
 
     // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 30)];
+    self = [super initWithFrame:CGRectMake(5, scrollViewX + scrollViewHeight + 10, 40, 30)];
     self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -357,7 +357,7 @@ void restoreLastSession() {
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
     // เพิ่ม border ให้กับ switchLabel
