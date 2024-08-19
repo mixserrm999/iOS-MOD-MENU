@@ -315,31 +315,59 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
-    BOOL isChecked;  // Track the checkbox state
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
     description = description_;
     preferencesKey = hackName_;
-    isChecked = NO;  // Initialize the state to unchecked
 
-    self = [super initWithFrame:CGRectMake(-1, scrollViewX + scrollViewHeight - 1, 30, 30)];
-    self.layer.borderWidth = 2.0f;
+    if(offsets_.size() != bytes_.size()){
+        [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
+    } else {
+        // For each offset, we create a MemoryPatch.
+        for(int i = 0; i < offsets_.size(); i++) {
+            MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
+            if(patch.isValid()) {
+              memoryPatches.push_back(patch);
+            } else {
+              [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+            }
+        }
+    }
+
+    self = [super initWithFrame:CGRectMake(-1, scrollViewX + scrollViewHeight - 1, menuWidth + 2, 50)];
+    self.backgroundColor = [UIColor clearColor];
+    self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    [self setTitle:@"" forState:UIControlStateNormal];  // Start with an empty checkbox
-    [self addTarget:self action:@selector(toggleCheckbox) forControlEvents:UIControlEventTouchUpInside];
-    
+    // Creating a small UIView
+    UIView *smallBox = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
+    smallBox.backgroundColor = [UIColor blueColor]; // Set the color of the box
+    [self addSubview:smallBox];
+
+
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
+    switchLabel.text = hackName_;
+    switchLabel.textColor = switchTitleColor;
+    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
+    switchLabel.adjustsFontSizeToFitWidth = true;
+    switchLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:switchLabel];
+
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.tintColor = infoButtonColor;
+
+    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [infoButton addGestureRecognizer:infoTap];
+    [self addSubview:infoButton];
+
     return self;
 }
 
-- (void)toggleCheckbox {
-    isChecked = !isChecked;  // Toggle the state
-
-    if (isChecked) {
-        [self setTitle:@"✔︎" forState:UIControlStateNormal];  // Show checkmark when checked
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    } else {
-        [self setTitle:@"" forState:UIControlStateNormal];  // Clear checkmark when unchecked
+-(void)showInfo:(UIGestureRecognizer *)gestureRec {
+    if(gestureRec.state == UIGestureRecognizerStateEnded) {
+        [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
+        menu.layer.opacity = 0.0f;
     }
 }
 
@@ -351,11 +379,11 @@ void restoreLastSession() {
     return description;
 }
 
--(std::vector<MemoryPatch>)getMemoryPatches {
+- (std::vector<MemoryPatch>)getMemoryPatches {
     return memoryPatches;
 }
 
-@end
+@end //end of OffsetSwitch class
 
 
 /**************************************
