@@ -355,22 +355,21 @@ void restoreLastSession() {
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
     infoButton.tintColor = infoButtonColor;
-    infoButton.enabled = YES; // ตรวจสอบว่าปุ่มถูกเปิดใช้งาน
 
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
+    // ใช้ addTarget:action:forControlEvents: แทน UITapGestureRecognizer
+    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:infoButton];
+
     
 
     return self;
 }
 
--(void)showInfo:(UIGestureRecognizer *)gestureRec {
-    if(gestureRec.state == UIGestureRecognizerStateEnded) {
-        [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
-        menu.layer.opacity = 0.0f;
-    }
+- (void)showInfo:(UIButton *)sender {
+    [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
+    menu.layer.opacity = 0.0f;
 }
+
 
 -(NSString *)getPreferencesKey {
     return preferencesKey;
