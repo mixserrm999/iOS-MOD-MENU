@@ -269,12 +269,15 @@ void restoreLastSession() {
             ((SliderSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
         if([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            ((OffsetSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
+            OffsetSwitch *offsetSwitch = (OffsetSwitch*)switch_;
+            offsetSwitch.backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
+            offsetSwitch->smallBox.backgroundColor = isSwitchOn_ ? [UIColor greenColor] : [UIColor redColor]; // Change color of the small box
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
+
 
 /*********************************************************************************************
     This method does the following handles the behaviour when a switch has been clicked
@@ -315,6 +318,8 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
+    UILabel *switchLabel;
+    UIView *smallBox; // Add a property for the small box
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
@@ -340,9 +345,10 @@ void restoreLastSession() {
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     // Creating a small UIView
-    UIView *smallBox = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
-    smallBox.backgroundColor = [UIColor blueColor]; // Set the color of the box
+    smallBox = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
+    smallBox.backgroundColor = [UIColor blueColor]; // Initial color of the box
     [self addSubview:smallBox];
+
 
 
     switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
