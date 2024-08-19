@@ -269,15 +269,12 @@ void restoreLastSession() {
             ((SliderSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
         if([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            OffsetSwitch *offsetSwitch = (OffsetSwitch*)switch_;
-            offsetSwitch.backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
-            offsetSwitch->smallBox.backgroundColor = isSwitchOn_ ? [UIColor greenColor] : [UIColor redColor]; // Change color of the small box
+            ((OffsetSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
-
 
 /*********************************************************************************************
     This method does the following handles the behaviour when a switch has been clicked
@@ -318,8 +315,6 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
-    UILabel *switchLabel;
-    UIView *smallBox; // Add a property for the small box
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
@@ -344,20 +339,21 @@ void restoreLastSession() {
     self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    // Creating a small UIView
-    smallBox = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
-    smallBox.backgroundColor = [UIColor blueColor]; // Initial color of the box
-    [self addSubview:smallBox];
 
-
-
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
+    // Adjust the frame size to be smaller
+    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, menuWidth - 200, 50)];
+    switchLabel.backgroundColor = [UIColor clearColor]; // Set background color if needed
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
     switchLabel.adjustsFontSizeToFitWidth = true;
-    switchLabel.textAlignment = NSTextAlignmentCenter;
+    switchLabel.textAlignment = NSTextAlignmentLeft; // Align text to the left
+
+    // Allow text to extend beyond the label's frame
+    switchLabel.clipsToBounds = NO;
+    switchLabel.lineBreakMode = NSLineBreakByClipping; // Let text overflow
     [self addSubview:switchLabel];
+
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
