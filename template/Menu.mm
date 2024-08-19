@@ -335,23 +335,20 @@ void restoreLastSession() {
         }
     }
 
-    self = [super initWithFrame:CGRectMake(-1, scrollViewX + scrollViewHeight - 1, menuWidth + 2, 50)];
-    self.backgroundColor = [UIColor clearColor];
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight - 1, 80, 30)];
+    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
-    // Adjust the frame size to be smaller
-    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, menuWidth - 200, 50)];
-    switchLabel.backgroundColor = [UIColor clearColor]; // Set background color if needed
+    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 20, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.adjustsFontSizeToFitWidth = true;
-    switchLabel.textAlignment = NSTextAlignmentLeft; // Align text to the left
-
-    // Allow text to extend beyond the label's frame
-    switchLabel.clipsToBounds = NO;
-    switchLabel.lineBreakMode = NSLineBreakByClipping; // Let text overflow
+    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
+    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
     [self addSubview:switchLabel];
 
 
