@@ -252,10 +252,17 @@ void restoreLastSession() {
     it also add's an action for when the switch is being clicked.
 ********************************************************************/
 - (void)addSwitchToMenu:(id)switch_ {
-    [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
+    if (![switch_ isKindOfClass:[UIView class]]) {
+        NSLog(@"Error: switch_ is not a UIView");
+        return;
+    }
+
+    UIView *switchView = (UIView *)switch_; // Type-cast to UIView
+
+    [switchView addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
 
     // Calculate position for switch
-    NSUInteger index = [scrollView.subviews indexOfObject:switch_];
+    NSUInteger index = [scrollView.subviews indexOfObject:switchView];
     CGFloat switchWidth = 40;
     CGFloat switchHeight = 30;
     CGFloat spacing = 10; // Space between switches
@@ -268,13 +275,14 @@ void restoreLastSession() {
     CGFloat y = row * (switchHeight + spacing);
 
     // Set the frame for the switch
-    switch_.frame = CGRectMake(x, y, switchWidth, switchHeight);
+    switchView.frame = CGRectMake(x, y, switchWidth, switchHeight);
     
     // Update scrollView content size
-    scrollViewHeight = CGRectGetMaxY(switch_.frame) + spacing;
+    scrollViewHeight = CGRectGetMaxY(switchView.frame) + spacing;
     scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
-    [scrollView addSubview:switch_];
+    [scrollView addSubview:switchView];
 }
+
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
     UIColor *clearColor = [UIColor clearColor];
@@ -333,8 +341,6 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
-    UILabel *switchLabel;
-    UIButton *infoButton;
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
