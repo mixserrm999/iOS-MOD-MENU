@@ -106,7 +106,7 @@ Switches *switches = [Switches alloc];
     self.menuTitle.textAlignment = NSTextAlignmentCenter;
     [self.header addSubview: self.menuTitle];
 
-    self.footer = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.bounds) - 10, menuWidth_, 30)];
+    self.footer = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.bounds) + 10, menuWidth_, 30)];
     self.footer.backgroundColor = headerColor_;
     CAShapeLayer *footerLayer = [CAShapeLayer layer];
     footerLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.footer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
@@ -353,7 +353,7 @@ void restoreLastSession() {
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth - 40, 10, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
