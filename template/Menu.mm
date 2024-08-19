@@ -261,26 +261,43 @@ void restoreLastSession() {
     it also add's an action for when the switch is being clicked.
 ********************************************************************/
 - (void)addSwitchToMenu:(UIButton *)switch_ {
-    // กำหนดปุ่มให้เหมาะสม
-    [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
-    switch_.frame = CGRectMake(0, 0, 20, 40); // กำหนดขนาดของปุ่ม
+    // กำหนดขนาดของปุ่ม
+    [switch_ setTranslatesAutoresizingMaskIntoConstraints:NO]; // ปิดการปรับขนาดอัตโนมัติ
+    
+    // สร้างข้อกำหนดในการจัดตำแหน่งของปุ่ม
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:switch_
+                                                                     attribute:NSLayoutAttributeWidth
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:nil
+                                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                                    multiplier:1.0
+                                                                      constant:10]; // กำหนดความกว้างของปุ่ม
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:switch_
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:nil
+                                                                      attribute:NSLayoutAttributeNotAnAttribute
+                                                                     multiplier:1.0
+                                                                       constant:10]; // กำหนดความสูงของปุ่ม
+    [switch_ addConstraints:@[widthConstraint, heightConstraint]];
 
-    // ตรวจสอบว่ามี stackView อยู่แล้วหรือยัง
-    if (!currentRowStackView || (currentRowStackView.arrangedSubviews.count >= numberOfButtonsPerRow)) {
-        currentRowStackView = [[UIStackView alloc] init];
-        currentRowStackView.axis = UILayoutConstraintAxisHorizontal;
-        currentRowStackView.spacing = 10;
-        currentRowStackView.alignment = UIStackViewAlignmentFill;
-        currentRowStackView.distribution = UIStackViewDistributionFillEqually;
-        [stackView addArrangedSubview:currentRowStackView];
+    // ตรวจสอบแถวปัจจุบันและสร้างแถวใหม่ถ้าจำเป็น
+    if (!self.currentRowStackView || (self.currentRowStackView.arrangedSubviews.count >= self.numberOfButtonsPerRow)) {
+        self.currentRowStackView = [[UIStackView alloc] init];
+        self.currentRowStackView.axis = UILayoutConstraintAxisHorizontal;
+        self.currentRowStackView.spacing = 10;
+        self.currentRowStackView.alignment = UIStackViewAlignmentFill;
+        self.currentRowStackView.distribution = UIStackViewDistributionFill;
+        [self.stackView addArrangedSubview:self.currentRowStackView];
     }
 
     // เพิ่มปุ่มไปยังแถวปัจจุบัน
-    [currentRowStackView addArrangedSubview:switch_];
+    [self.currentRowStackView addArrangedSubview:switch_];
 
     // อัปเดตขนาดของ scrollView
     [self updateScrollViewContentSize];
 }
+
 
 - (void)updateScrollViewContentSize {
     CGFloat contentHeight = stackView.frame.size.height;
