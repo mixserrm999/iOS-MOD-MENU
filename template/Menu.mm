@@ -359,6 +359,7 @@ void restoreLastSession() {
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+    [self bringSubviewToFront:infoButton];
 
     return self;
 }
