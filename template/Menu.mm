@@ -315,11 +315,13 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
+    BOOL isChecked;
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
     description = description_;
     preferencesKey = hackName_;
+    isChecked = NO; // Default state
 
     if(offsets_.size() != bytes_.size()){
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
@@ -339,24 +341,43 @@ void restoreLastSession() {
     self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
-    switchLabel.text = hackName_;
-    switchLabel.textColor = switchTitleColor;
-    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.adjustsFontSizeToFitWidth = true;
-    switchLabel.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:switchLabel];
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
-    infoButton.tintColor = infoButtonColor;
-
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
-    [self addSubview:infoButton];
+    
+    [self setupCheckboxAppearance];
 
     return self;
+}
+
+- (void)setupCheckboxAppearance {
+    // Create a button that looks like a checkbox
+    self.layer.cornerRadius = 5.0f;
+    [self setBackgroundColor:[UIColor lightGrayColor]]; // Default color for unchecked state
+    [self addTarget:self action:@selector(toggleCheckbox:) forControlEvents:UIControlEventTouchUpInside];
+    
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, menuWidth - 60, 50)];
+    switchLabel.text = preferencesKey;
+    switchLabel.textColor = [UIColor blackColor];
+    switchLabel.font = [UIFont fontWithName:@"Helvetica" size:18];
+    switchLabel.adjustsFontSizeToFitWidth = YES;
+    switchLabel.textAlignment = NSTextAlignmentLeft;
+    [self addSubview:switchLabel];
+}
+
+- (void)toggleCheckbox:(UIButton *)button {
+    isChecked = !isChecked;
+    if (isChecked) {
+        self.backgroundColor = [UIColor greenColor]; // Color for checked state
+    } else {
+        self.backgroundColor = [UIColor lightGrayColor]; // Color for unchecked state
+    }
+    // Handle the state change if necessary
+    [self updateMemoryPatchesState];
+}
+
+- (void)updateMemoryPatchesState {
+    // Update memory patches based on the checkbox state
+    for (auto &patch : memoryPatches) {
+        patch.setState(isChecked); // Assuming MemoryPatch has a setState method
+    }
 }
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
@@ -379,6 +400,7 @@ void restoreLastSession() {
 }
 
 @end //end of OffsetSwitch class
+ //end of OffsetSwitch class
 
 
 /**************************************
