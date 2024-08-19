@@ -263,7 +263,7 @@ void restoreLastSession() {
 - (void)addSwitchToMenu:(UIButton *)switch_ {
     // กำหนดปุ่มให้เหมาะสม
     [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
-    switch_.frame = CGRectMake(0, 0, 50, 50); // กำหนดขนาดของปุ่ม
+    switch_.frame = CGRectMake(0, 0, 20, 40); // กำหนดขนาดของปุ่ม
 
     // ตรวจสอบว่ามี stackView อยู่แล้วหรือยัง
     if (!currentRowStackView || (currentRowStackView.arrangedSubviews.count >= numberOfButtonsPerRow)) {
