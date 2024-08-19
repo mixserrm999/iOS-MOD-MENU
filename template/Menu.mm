@@ -268,9 +268,10 @@ void restoreLastSession() {
     CGFloat switchX = column * (switchWidth + xPadding);
     CGFloat switchY = row * (switchHeight + yPadding);
 
-    switch_.frame = CGRectMake(switchX, switchY, switchWidth, switchHeight);
+    UIView *switchView = (UIView *)switch_;  // แปลงชนิดเป็น UIView
+    switchView.frame = CGRectMake(switchX, switchY, switchWidth, switchHeight);
 
-    [scrollView addSubview:switch_];
+    [scrollView addSubview:switchView];
 
     // ปรับขนาด scrollViewHeight ถ้า switch อยู่ในแถวใหม่
     if (column == switchesPerRow - 1) {
@@ -374,12 +375,12 @@ void restoreLastSession() {
 
     // เพิ่ม border ให้กับ switchLabel
     // switchLabel.layer.borderWidth = 1.0f;
-    // switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth 0, 0, 0, 0);
+    infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
     infoButton.tintColor = infoButtonColor;
 
     // เพิ่ม border ให้กับ switchLabel
