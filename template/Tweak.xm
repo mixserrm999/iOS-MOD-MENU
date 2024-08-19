@@ -27,9 +27,17 @@ void setup() {
   [switches addSwitch:NSSENCRYPT("TEST2")
     description:NSSENCRYPT("TEST2")
   ];
+  
+  [switches addSwitch:NSSENCRYPT("TEST")
+    description:NSSENCRYPT("TWST")
+  ];
+
+  [switches addSwitch:NSSENCRYPT("TEST2")
+    description:NSSENCRYPT("TEST2")
+  ];
 
   // Offset Switch with one patch
-  [switches addOffsetSwitch:NSSENCRYPT("Show MiniMap")
+  /* [switches addOffsetSwitch:NSSENCRYPT("Show MiniMap")
     description:NSSENCRYPT("show player on mini map")
     offsets: {
       ENCRYPTOFFSET("0x2160628")
@@ -83,6 +91,7 @@ void setup() {
       ENCRYPTHEX("0090261EC0035FD6")
     }
   ];
+  */
 
 
   /*

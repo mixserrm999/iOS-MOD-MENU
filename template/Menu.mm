@@ -262,7 +262,7 @@ void restoreLastSession() {
 
     CGFloat switchWidth = 40;
     CGFloat switchHeight = 30;
-    CGFloat xPadding = 10;
+    CGFloat xPadding = 100;
     CGFloat yPadding = 10;
 
     CGFloat switchX = column * (switchWidth + xPadding);
