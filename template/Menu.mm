@@ -353,7 +353,7 @@ void restoreLastSession() {
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 40, 10, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth - 60, 5, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
