@@ -48,6 +48,11 @@ Menu *menu = [Menu alloc];
 Switches *switches = [Switches alloc];
 
 
+// ที่ไหนสักแห่งในคลาสของคุณ
+UIStackView *stackView;
+UIStackView *currentRowStackView;
+NSInteger numberOfButtonsPerRow = 2; // จำนวนปุ่มต่อแถว
+
 -(id)initWithTitle:(NSString *)title_ titleColor:(UIColor *)titleColor_ titleFont:(NSString *)titleFont_ credits:(NSString *)credits_ headerColor:(UIColor *)headerColor_ switchOffColor:(UIColor *)switchOffColor_ switchOnColor:(UIColor *)switchOnColor_ switchTitleFont:(NSString *)switchTitleFont_ switchTitleColor:(UIColor *)switchTitleColor_ infoButtonColor:(UIColor *)infoButtonColor_ maxVisibleSwitches:(int)maxVisibleSwitches_ menuWidth:(CGFloat )menuWidth_ menuIcon:(NSString *)menuIconBase64_ menuButton:(NSString *)menuButtonBase64_ {
     mainWindow = [UIApplication sharedApplication].keyWindow;
     defaults = [NSUserDefaults standardUserDefaults];
@@ -66,9 +71,9 @@ Switches *switches = [Switches alloc];
     self.center = mainWindow.center;
     self.layer.opacity = 0.0f;
     // Set border for the main menu view
-    self.layer.borderColor = blueColor.CGColor; // กำหนดสีของ border
-    self.layer.borderWidth = 0.0f; // กำหนดความกว้างของ border
-    self.layer.cornerRadius = 10.0f; // กำหนดให้มุมโค้งมน
+    self.layer.borderColor = blueColor.CGColor;
+    self.layer.borderWidth = 0.0f;
+    self.layer.cornerRadius = 10.0f;
     self.layer.masksToBounds = YES;
 
     self.header = [[UIView alloc]initWithFrame:CGRectMake(0, 1, menuWidth_, 50)];
@@ -87,16 +92,21 @@ Switches *switches = [Switches alloc];
     menuIcon.frame = CGRectMake(5, 1, 50, 50);
     menuIcon.backgroundColor = [UIColor clearColor];
     [menuIcon setBackgroundImage:menuIconImage forState:UIControlStateNormal];
-
     [menuIcon addTarget:self action:@selector(menuIconTapped) forControlEvents:UIControlEventTouchDown];
     [self.header addSubview:menuIcon];
 
+    // กำหนด scrollView
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.header.bounds), menuWidth_, CGRectGetHeight(self.bounds) - CGRectGetHeight(self.header.bounds))];
-    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5]; // BodyBackground
+    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5];
     [self addSubview:scrollView];
 
-    // we need this for the switches, do not remove.
-    scrollViewX = CGRectGetMinX(scrollView.self.bounds);
+    // กำหนด stackView
+    stackView = [[UIStackView alloc] initWithFrame:scrollView.bounds];
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.spacing = 10;
+    stackView.alignment = UIStackViewAlignmentFill;
+    stackView.distribution = UIStackViewDistributionFillProportionally;
+    [scrollView addSubview:stackView];
 
     self.menuTitle = [[UILabel alloc]initWithFrame:CGRectMake(55, -2, menuWidth_ - 60, 50)];
     self.menuTitle.text = title_;
@@ -104,14 +114,13 @@ Switches *switches = [Switches alloc];
     self.menuTitle.font = [UIFont fontWithName:titleFont_ size:30.0f];
     self.menuTitle.adjustsFontSizeToFitWidth = true;
     self.menuTitle.textAlignment = NSTextAlignmentCenter;
-    [self.header addSubview: self.menuTitle];
+    [self.header addSubview:self.menuTitle];
 
     self.footer = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.bounds) + 10, menuWidth_, 30)];
     self.footer.backgroundColor = headerColor_;
     CAShapeLayer *footerLayer = [CAShapeLayer layer];
     footerLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.footer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.0}].CGPath;
     self.footer.layer.mask = footerLayer;
-    // Set border for the footer with blue color
     self.footer.layer.borderColor = blueColor.CGColor;
     self.footer.layer.borderWidth = 0.0f;
     [self addSubview:self.footer];
@@ -251,11 +260,31 @@ void restoreLastSession() {
     This method adds the given switch to the menu's scrollview.
     it also add's an action for when the switch is being clicked.
 ********************************************************************/
-- (void)addSwitchToMenu:(id)switch_ {
+- (void)addSwitchToMenu:(UIButton *)switch_ {
+    // กำหนดปุ่มให้เหมาะสม
     [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
-    scrollViewHeight += 50;
-    scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
-    [scrollView addSubview:switch_];
+    switch_.frame = CGRectMake(0, 0, 50, 50); // กำหนดขนาดของปุ่ม
+
+    // ตรวจสอบว่ามี stackView อยู่แล้วหรือยัง
+    if (!currentRowStackView || (currentRowStackView.arrangedSubviews.count >= numberOfButtonsPerRow)) {
+        currentRowStackView = [[UIStackView alloc] init];
+        currentRowStackView.axis = UILayoutConstraintAxisHorizontal;
+        currentRowStackView.spacing = 10;
+        currentRowStackView.alignment = UIStackViewAlignmentFill;
+        currentRowStackView.distribution = UIStackViewDistributionFillEqually;
+        [stackView addArrangedSubview:currentRowStackView];
+    }
+
+    // เพิ่มปุ่มไปยังแถวปัจจุบัน
+    [currentRowStackView addArrangedSubview:switch_];
+
+    // อัปเดตขนาดของ scrollView
+    [self updateScrollViewContentSize];
+}
+
+- (void)updateScrollViewContentSize {
+    CGFloat contentHeight = stackView.frame.size.height;
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentHeight);
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
@@ -336,14 +365,14 @@ void restoreLastSession() {
     }
 
     // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(5, scrollViewX + scrollViewHeight + 10, 40, 30)];
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 30)];
     self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth, 30)];
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
@@ -351,18 +380,18 @@ void restoreLastSession() {
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
     // เพิ่ม border ให้กับ switchLabel
-    switchLabel.layer.borderWidth = 1.0f;
-    switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    // switchLabel.layer.borderWidth = 1.0f;
+    // switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth 0, 0, 0, 0);
     infoButton.tintColor = infoButtonColor;
 
     // เพิ่ม border ให้กับ switchLabel
-    infoButton.layer.borderWidth = 1.0f;
-    infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
 
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
