@@ -253,10 +253,32 @@ void restoreLastSession() {
 ********************************************************************/
 - (void)addSwitchToMenu:(id)switch_ {
     [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
-    scrollViewHeight += 50;
-    scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
+
+    // คำนวณตำแหน่งสำหรับ switch แต่ละตัว
+    int switchesPerRow = 2; // จำนวน switch ต่อแถว
+    int currentSwitchCount = scrollView.subviews.count; // นับจำนวน switch ที่มีอยู่
+    int row = currentSwitchCount / switchesPerRow;
+    int column = currentSwitchCount % switchesPerRow;
+
+    CGFloat switchWidth = 40;
+    CGFloat switchHeight = 30;
+    CGFloat xPadding = 10;
+    CGFloat yPadding = 10;
+
+    CGFloat switchX = column * (switchWidth + xPadding);
+    CGFloat switchY = row * (switchHeight + yPadding);
+
+    switch_.frame = CGRectMake(switchX, switchY, switchWidth, switchHeight);
+
     [scrollView addSubview:switch_];
+
+    // ปรับขนาด scrollViewHeight ถ้า switch อยู่ในแถวใหม่
+    if (column == switchesPerRow - 1) {
+        scrollViewHeight += switchHeight + yPadding;
+        scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
+    }
 }
+
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
     UIColor *clearColor = [UIColor clearColor];
@@ -324,6 +346,7 @@ void restoreLastSession() {
     if(offsets_.size() != bytes_.size()){
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
     } else {
+        // For each offset, we create a MemoryPatch.
         for(int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
             if(patch.isValid()) {
@@ -334,41 +357,42 @@ void restoreLastSession() {
         }
     }
 
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, menuWidth, 60)]; // เพิ่มความสูงของ UIView เป็น 60
-    self.backgroundColor = [UIColor clearColor];
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 30)];
+    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.clipsToBounds = NO;
+    self.clipsToBounds = NO; // ปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
-    // สร้าง UILabel สำหรับบรรทัดแรก
+    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
     switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft;
-    switchLabel.lineBreakMode = NSLineBreakByClipping;
+    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
+    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
+
+    // เพิ่ม border ให้กับ switchLabel
+    // switchLabel.layer.borderWidth = 1.0f;
+    // switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
-    // สร้าง UILabel สำหรับบรรทัดที่สอง
-    UILabel *secondLineLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 30, menuWidth, 30)];
-    secondLineLabel.text = description_;
-    secondLineLabel.textColor = switchTitleColor;
-    secondLineLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    secondLineLabel.textAlignment = NSTextAlignmentLeft;
-    secondLineLabel.lineBreakMode = NSLineBreakByClipping;
-    [self addSubview:secondLineLabel];
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 0, 30, 30); // ปรับตำแหน่งของปุ่มให้เหมาะสม
+    infoButton.frame = CGRectMake(menuWidth 0, 0, 0, 0);
     infoButton.tintColor = infoButtonColor;
+
+    // เพิ่ม border ให้กับ switchLabel
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
 
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+    
 
     return self;
 }
-
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
     if(gestureRec.state == UIGestureRecognizerStateEnded) {
