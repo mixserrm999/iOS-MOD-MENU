@@ -345,7 +345,13 @@ void restoreLastSession() {
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.layer.borderWidth = 1.0;
+    infoButton.layer.borderColor = [UIColor redColor].CGColor;
+    infoButton.backgroundColor = [UIColor lightGrayColor];
+
     infoButton.tintColor = infoButtonColor;
+    infoButton.layer.zPosition = 1000; // Set a high zPosition
+
 
     // เพิ่ม action ให้กับปุ่มโดยตรง
     [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
