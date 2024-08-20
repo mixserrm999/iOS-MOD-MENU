@@ -259,23 +259,35 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    UIColor *clearColor = [UIColor clearColor];
+    // Base64 encoded images
+    NSString *base64ImageOn = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANwSURBVFiFxZddTFxFFMd/Zy67XflYsInWPlgBm9Y0KSUampiQ2KKRsMVd3XZjosYXNb77Ym1TNCgUTFt91gffmkhtkd0AsYkkRaVU/EhNfWj8IGETW1KjKEL2697jw7LYLh97WVj8P93JnDm/f2bmzpwRXCo4EKzKOKbdqLY4yD7BqQWpyfbqDMgkcBV0xLIYjIais27ySqGA1vPh7ZbYHQIvAuUu/c4LnDWW9kZD0Z+LMhDpi9w170m+gSOvIVS4BOcrDZxxfKk3hwPDSdcGggPBnbYtF4C9RYLvlDJmlWk4GopOFzQQ6H+60ah+pnDvhsAXPRAXTGAw3H9tRQPBgeBOx5avNhp+G23KMrr/9pkwuY8DHx3w2bacKxkcQNlh29LfNtS2ZYmBihr/MaCxZPD/9KiV8L6Vawhkf7Uy7J/WsdvXqpQjsmf4mU9/MQCW2B2bCAfwGtXXAaRtqM1vEt4buD9kCkoQjuwKY8Tw8fVzywcpc+W2974ySW45BLqh8FcaXiL4YDvzmXn6rn+CossFVsx50gFjVFtKAc84GU5NvLc8PBfvOI8bB9lXCnj3lV6+vjmx+hiRBiNo3f8BX1C9AfyrJX7/4GlOPdZLlbeqIDztpHlnvNstHIVqUyjIYzw8tHU3Xc2dS0zkw7vGT/LN9Heu4DkZ4O+VHSrHv+xgajZOfXUd3c1v4/f6l8AzToaTV95dM1zgL6PZSmZFzSRnOPbFCaZm49RV19LV3Inf6y92zfP1q7Xr2d1NwCOrRSXsBJd/G6dpexMP+HfwZO0TNNyzd3HaJ6a/LQYOMGhAR9xE/pH4k6Ojx5majVPlrSp62u+Ufi6RvkjlfFnqBlDpZshW3928sOd5LsVHuXrrh3Wws0exALRfCH2o8HLx2YoxoB8MHo6+agCMpb1kC8jNUtJ4tAcWCpKF0vnMJho4HQvGJhcNANy8te0EMFpytDLm+FKduWZ+UbotY8uEwP0lga9WlAJEQ9FpwQQU4qWAG9sJ5L8NltwFg+H+a5bHeVjRSxsGV8Yso/tjR2I/5nctexnFnor9rr50q0APkFoHOgV0l9veg8u9isDF4/TQ+cP1SOYoynNrKFz/QfWs8WhPbrevpIIGcor0RSrnPOmAqLagNIpQp1CzkGRGlUkVvhd0JF2RGLrYenHOTd5/AbNNa+7OUGbqAAAAAElFTkSuQmCC";
+    NSString *base64ImageOff = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAADsAAAA7AF5KHG9AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAxVJREFUWIW9l0tsTFEYx3/fmb5MR2sjIamoSStE4xkNO0VFp1ZEwgILiZXEwqJEUoJoaiEiEs9ERBAkIlJDvSORio3nLKjOjKpHYoEy1HDns5hp9XXn3o4Z/9093z3f739vzvnOdwSX0oq6EhJaj+pCYAZQDoxJhT8DUeAxqrcpLLoiLy5/dZNXHMH+wGQSVgPCKsDr0u930LOINkv4RntGBrRs5Sjyu3cBm4A8l+DB+gW6H403SvRuj2sD6q+tRM1FoCpD8OCMD0jIcnnd+t7RgE6sm4VJtAJjswPvUxdIvUSuPbU1kPry+zmA/zWhnrkSDX7oHTB98PIFRai5kEM4QBlitWjZylFDDCCFu0lur1xrDgXdW/qwkNpqaoXIfLWPVN9QT6VEgx+SfyBhNWQN7i2CzevgyHZYHQAZdqP5wGoEEK2oK8FKvMd9kbGXzwsn98CsKX/Hth2As8Hh3o5RUDjekND6nMEBaqrtZhTzsydgUrU9N3CAl1H7eWIWGv515aeDP2+HQ+fSTE5MN8Ak2/joYji6A162wOWDMNU/MviarRD7kcaA+A1QYhvfuBoWz4O8PKiqgDN7oarSPfzLtzRwAEpN2rC/bNDrPjjVBPNnZAMOJCtht230RtvQsVIfnG7OChz4YoCIbfjCdThxyV2qUAes2zYSOKBhAzy2jyvsPuJsItQBa7fCJ/ufOayEJwbV2+lNOpjIFA6g5pahON4CxDIy8S9wiOHtuZo8DSctOQ6y3nGKCKyohUXz4NVrOHzeYZ+n1TGJtG5IHce1lagJAfmZZhuh4ljWVOm8GTYAydZZ9/8nOKjsk86bYejfEWm8EfTBf8C3kSc7eh8GNqXlgXGI9RCYkCP4O37lV0tXy9vegQGlONmtyjKgKwfwN4hnaX/4EAMAErn2FI+ZDdzLIrwN9VRLOPhscGDYw0heXf2IxyxB2IlTjUivOKpNeExN/7vAAJZTBi0PjAOrEWEtUOwSHAM5jfW7uXe128nRQJ+RaQt8xArqMdSgMpNkI9P/eh5BeIRyB+/PoITuujqV/gBh4iC9luuB4gAAAABJRU5ErkJggg==";
+
+    NSData *imageData;
+    if (isSwitchOn_) {
+        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOff options:0];
+    } else {
+        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOn options:0];
+    }
+
+    UIImage *image = [UIImage imageWithData:imageData];
+    UIColor *imageColor = [UIColor colorWithPatternImage:image];
 
     [UIView animateWithDuration:0.3 animations:^ {
         if([switch_ isKindOfClass:[TextFieldSwitch class]]) {
-            ((TextFieldSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
+            ((TextFieldSwitch*)switch_).backgroundColor = imageColor;
         }
         if([switch_ isKindOfClass:[SliderSwitch class]]) {
-            ((SliderSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
+            ((SliderSwitch*)switch_).backgroundColor = imageColor;
         }
-        if ([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            NSString *imageName = isSwitchOn_ ? @"correct.png" : @"check.png";
-            [((OffsetSwitch *)switch_) setBackgroundImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        if([switch_ isKindOfClass:[OffsetSwitch class]]) {
+            ((OffsetSwitch*)switch_).backgroundColor = imageColor;
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
+
 
 /*********************************************************************************************
     This method does the following handles the behaviour when a switch has been clicked
@@ -322,62 +334,71 @@ void restoreLastSession() {
     description = description_;
     preferencesKey = hackName_;
 
-    if (offsets_.size() != bytes_.size()) {
+    if(offsets_.size() != bytes_.size()){
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
     } else {
-        for (int i = 0; i < offsets_.size(); i++) {
+        // For each offset, we create a MemoryPatch.
+        for(int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
-            if (patch.isValid()) {
-                memoryPatches.push_back(patch);
+            if(patch.isValid()) {
+              memoryPatches.push_back(patch);
             } else {
-                [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+              [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
             }
         }
     }
 
-    // Initializing the OffsetSwitch with a small box appearance
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.layer.borderWidth = 1.0f;
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.layer.cornerRadius = self.frame.size.width / 2.0;
-        self.clipsToBounds = NO;
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
+    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
+    self.layer.borderWidth = 1.0f;
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
+    self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
-        // Set initial background image to check.png
-        [self setBackgroundImage:[UIImage imageNamed:@"check.png"] forState:UIControlStateNormal];
 
-        switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
-        switchLabel.text = hackName_;
-        switchLabel.textColor = switchTitleColor;
-        switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-        switchLabel.textAlignment = NSTextAlignmentLeft;
-        switchLabel.lineBreakMode = NSLineBreakByClipping;
-        [self addSubview:switchLabel];
+    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+    switchLabel.text = hackName_;
+    switchLabel.textColor = switchTitleColor;
+    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
+    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
+    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
-        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-        infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
-        infoButton.tintColor = infoButtonColor;
-        UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-        [infoButton addGestureRecognizer:infoTap];
-        [self addSubview:infoButton];
-    }
+    // เพิ่ม border ให้กับ switchLabel
+    // switchLabel.layer.borderWidth = 1.0f;
+    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    [self addSubview:switchLabel];
+
+
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
+    infoButton.tintColor = infoButtonColor;
+
+    // เพิ่ม border ให้กับ switchLabel
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
+
+    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [infoButton addGestureRecognizer:infoTap];
+    [self addSubview:infoButton];
+    
 
     return self;
 }
 
-- (void)showInfo:(UIGestureRecognizer *)gestureRec {
-    if (gestureRec.state == UIGestureRecognizerStateEnded) {
+-(void)showInfo:(UIGestureRecognizer *)gestureRec {
+    if(gestureRec.state == UIGestureRecognizerStateEnded) {
         [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
         menu.layer.opacity = 0.0f;
     }
 }
 
-- (NSString *)getPreferencesKey {
+-(NSString *)getPreferencesKey {
     return preferencesKey;
 }
 
-- (NSString *)getDescription {
+-(NSString *)getDescription {
     return description;
 }
 
@@ -385,8 +406,7 @@ void restoreLastSession() {
     return memoryPatches;
 }
 
-@end
-
+@end //end of OffsetSwitch class
 
 
 /**************************************
