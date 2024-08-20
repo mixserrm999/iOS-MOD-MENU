@@ -345,7 +345,7 @@ void restoreLastSession() {
 
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 50, 30)];
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
@@ -366,8 +366,7 @@ void restoreLastSession() {
     // infoButton.layer.borderWidth = 1.0f;
     // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
 
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
+    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:infoButton];
     
 
