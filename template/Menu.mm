@@ -335,7 +335,7 @@ void restoreLastSession() {
         }
     }
 
-    // สร้าง UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
     self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
     self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
@@ -343,29 +343,32 @@ void restoreLastSession() {
     self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
+
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 100, 40)]; // ตั้งขนาดให้เท่ากับ UIView
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 200, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentCenter; // ข้อความจัดตำแหน่งกลาง
+    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
+    // เพิ่ม border ให้กับ switchLabel
+    // switchLabel.layer.borderWidth = 1.0f;
+    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
-    // สร้างปุ่ม infoButton และตั้งค่าให้เล็กลงและอยู่ภายในกรอบของ switchLabel
+
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(0, 0, 20, 20); // ขนาดของ infoButton
+    infoButton.frame = CGRectMake(menuWidth - 70, 15, 30, 30);
     infoButton.tintColor = infoButtonColor;
 
-    // เพิ่ม UITapGestureRecognizer ให้กับ infoButton
+    // เพิ่ม border ให้กับ switchLabel
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
+
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
-
-    // ตั้งค่าให้ infoButton อยู่ที่มุมล่างขวาของ switchLabel
-    infoButton.center = CGPointMake(self.frame.size.width - infoButton.frame.size.width / 2, self.frame.size.height - infoButton.frame.size.height / 2);
-
     
 
     return self;
