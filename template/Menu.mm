@@ -27,7 +27,7 @@ UIScrollView *scrollView;
 CGFloat menuWidth;
 CGFloat scrollViewX;
 NSString *credits;
-UIColor *switchOnColor;
+NSString *switchOnColor;
 NSString *switchTitleFont;
 UIColor *switchTitleColor;
 UIColor *infoButtonColor;
@@ -48,7 +48,7 @@ Menu *menu = [Menu alloc];
 Switches *switches = [Switches alloc];
 
 
--(id)initWithTitle:(NSString *)title_ titleColor:(UIColor *)titleColor_ titleFont:(NSString *)titleFont_ credits:(NSString *)credits_ headerColor:(UIColor *)headerColor_ switchOffColor:(UIColor *)switchOffColor_ switchOnColor:(UIColor *)switchOnColor_ switchTitleFont:(NSString *)switchTitleFont_ switchTitleColor:(UIColor *)switchTitleColor_ infoButtonColor:(UIColor *)infoButtonColor_ maxVisibleSwitches:(int)maxVisibleSwitches_ menuWidth:(CGFloat )menuWidth_ menuIcon:(NSString *)menuIconBase64_ menuButton:(NSString *)menuButtonBase64_ {
+-(id)initWithTitle:(NSString *)title_ titleColor:(UIColor *)titleColor_ titleFont:(NSString *)titleFont_ credits:(NSString *)credits_ headerColor:(UIColor *)headerColor_ switchOffColor:(NSString *)switchOffColor_ switchOnColor:(NSString *)switchOnColor_ switchTitleFont:(NSString *)switchTitleFont_ switchTitleColor:(UIColor *)switchTitleColor_ infoButtonColor:(UIColor *)infoButtonColor_ maxVisibleSwitches:(int)maxVisibleSwitches_ menuWidth:(CGFloat )menuWidth_ menuIcon:(NSString *)menuIconBase64_ menuButton:(NSString *)menuButtonBase64_ {
     mainWindow = [UIApplication sharedApplication].keyWindow;
     defaults = [NSUserDefaults standardUserDefaults];
 
@@ -259,35 +259,22 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    // Base64 encoded images
-    NSString *base64ImageOn = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANwSURBVFiFxZddTFxFFMd/Zy67XflYsInWPlgBm9Y0KSUampiQ2KKRsMVd3XZjosYXNb77Ym1TNCgUTFt91gffmkhtkd0AsYkkRaVU/EhNfWj8IGETW1KjKEL2697jw7LYLh97WVj8P93JnDm/f2bmzpwRXCo4EKzKOKbdqLY4yD7BqQWpyfbqDMgkcBV0xLIYjIais27ySqGA1vPh7ZbYHQIvAuUu/c4LnDWW9kZD0Z+LMhDpi9w170m+gSOvIVS4BOcrDZxxfKk3hwPDSdcGggPBnbYtF4C9RYLvlDJmlWk4GopOFzQQ6H+60ah+pnDvhsAXPRAXTGAw3H9tRQPBgeBOx5avNhp+G23KMrr/9pkwuY8DHx3w2bacKxkcQNlh29LfNtS2ZYmBihr/MaCxZPD/9KiV8L6Vawhkf7Uy7J/WsdvXqpQjsmf4mU9/MQCW2B2bCAfwGtXXAaRtqM1vEt4buD9kCkoQjuwKY8Tw8fVzywcpc+W2974ySW45BLqh8FcaXiL4YDvzmXn6rn+CossFVsx50gFjVFtKAc84GU5NvLc8PBfvOI8bB9lXCnj3lV6+vjmx+hiRBiNo3f8BX1C9AfyrJX7/4GlOPdZLlbeqIDztpHlnvNstHIVqUyjIYzw8tHU3Xc2dS0zkw7vGT/LN9Heu4DkZ4O+VHSrHv+xgajZOfXUd3c1v4/f6l8AzToaTV95dM1zgL6PZSmZFzSRnOPbFCaZm49RV19LV3Inf6y92zfP1q7Xr2d1NwCOrRSXsBJd/G6dpexMP+HfwZO0TNNyzd3HaJ6a/LQYOMGhAR9xE/pH4k6Ojx5majVPlrSp62u+Ufi6RvkjlfFnqBlDpZshW3928sOd5LsVHuXrrh3Wws0exALRfCH2o8HLx2YoxoB8MHo6+agCMpb1kC8jNUtJ4tAcWCpKF0vnMJho4HQvGJhcNANy8te0EMFpytDLm+FKduWZ+UbotY8uEwP0lga9WlAJEQ9FpwQQU4qWAG9sJ5L8NltwFg+H+a5bHeVjRSxsGV8Yso/tjR2I/5nctexnFnor9rr50q0APkFoHOgV0l9veg8u9isDF4/TQ+cP1SOYoynNrKFz/QfWs8WhPbrevpIIGcor0RSrnPOmAqLagNIpQp1CzkGRGlUkVvhd0JF2RGLrYenHOTd5/AbNNa+7OUGbqAAAAAElFTkSuQmCC";
-    NSString *base64ImageOff = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAADsAAAA7AF5KHG9AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAxVJREFUWIW9l0tsTFEYx3/fmb5MR2sjIamoSStE4xkNO0VFp1ZEwgILiZXEwqJEUoJoaiEiEs9ERBAkIlJDvSORio3nLKjOjKpHYoEy1HDns5hp9XXn3o4Z/9093z3f739vzvnOdwSX0oq6EhJaj+pCYAZQDoxJhT8DUeAxqrcpLLoiLy5/dZNXHMH+wGQSVgPCKsDr0u930LOINkv4RntGBrRs5Sjyu3cBm4A8l+DB+gW6H403SvRuj2sD6q+tRM1FoCpD8OCMD0jIcnnd+t7RgE6sm4VJtAJjswPvUxdIvUSuPbU1kPry+zmA/zWhnrkSDX7oHTB98PIFRai5kEM4QBlitWjZylFDDCCFu0lur1xrDgXdW/qwkNpqaoXIfLWPVN9QT6VEgx+SfyBhNWQN7i2CzevgyHZYHQAZdqP5wGoEEK2oK8FKvMd9kbGXzwsn98CsKX/Hth2As8Hh3o5RUDjekND6nMEBaqrtZhTzsydgUrU9N3CAl1H7eWIWGv515aeDP2+HQ+fSTE5MN8Ak2/joYji6A162wOWDMNU/MviarRD7kcaA+A1QYhvfuBoWz4O8PKiqgDN7oarSPfzLtzRwAEpN2rC/bNDrPjjVBPNnZAMOJCtht230RtvQsVIfnG7OChz4YoCIbfjCdThxyV2qUAes2zYSOKBhAzy2jyvsPuJsItQBa7fCJ/ufOayEJwbV2+lNOpjIFA6g5pahON4CxDIy8S9wiOHtuZo8DSctOQ6y3nGKCKyohUXz4NVrOHzeYZ+n1TGJtG5IHce1lagJAfmZZhuh4ljWVOm8GTYAydZZ9/8nOKjsk86bYejfEWm8EfTBf8C3kSc7eh8GNqXlgXGI9RCYkCP4O37lV0tXy9vegQGlONmtyjKgKwfwN4hnaX/4EAMAErn2FI+ZDdzLIrwN9VRLOPhscGDYw0heXf2IxyxB2IlTjUivOKpNeExN/7vAAJZTBi0PjAOrEWEtUOwSHAM5jfW7uXe128nRQJ+RaQt8xArqMdSgMpNkI9P/eh5BeIRyB+/PoITuujqV/gBh4iC9luuB4gAAAABJRU5ErkJggg==";
-
-    NSData *imageData;
-    if (isSwitchOn_) {
-        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOff options:0];
-    } else {
-        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOn options:0];
-    }
-
-    UIImage *image = [UIImage imageWithData:imageData];
-    UIColor *imageColor = [UIColor colorWithPatternImage:image];
+    UIColor *clearColor = [UIColor clearColor];
 
     [UIView animateWithDuration:0.3 animations:^ {
         if([switch_ isKindOfClass:[TextFieldSwitch class]]) {
-            ((TextFieldSwitch*)switch_).backgroundColor = imageColor;
+            ((TextFieldSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
         if([switch_ isKindOfClass:[SliderSwitch class]]) {
-            ((SliderSwitch*)switch_).backgroundColor = imageColor;
+            ((SliderSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
         if([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            ((OffsetSwitch*)switch_).backgroundColor = imageColor;
+            ((OffsetSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
-
 
 /*********************************************************************************************
     This method does the following handles the behaviour when a switch has been clicked
@@ -348,24 +335,9 @@ void restoreLastSession() {
         }
     }
 
-    // Base64 encoded images
-    NSString *base64ImageOn = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANwSURBVFiFxZddTFxFFMd/Zy67XflYsInWPlgBm9Y0KSUampiQ2KKRsMVd3XZjosYXNb77Ym1TNCgUTFt91gffmkhtkd0AsYkkRaVU/EhNfWj8IGETW1KjKEL2697jw7LYLh97WVj8P93JnDm/f2bmzpwRXCo4EKzKOKbdqLY4yD7BqQWpyfbqDMgkcBV0xLIYjIais27ySqGA1vPh7ZbYHQIvAuUu/c4LnDWW9kZD0Z+LMhDpi9w170m+gSOvIVS4BOcrDZxxfKk3hwPDSdcGggPBnbYtF4C9RYLvlDJmlWk4GopOFzQQ6H+60ah+pnDvhsAXPRAXTGAw3H9tRQPBgeBOx5avNhp+G23KMrr/9pkwuY8DHx3w2bacKxkcQNlh29LfNtS2ZYmBihr/MaCxZPD/9KiV8L6Vawhkf7Uy7J/WsdvXqpQjsmf4mU9/MQCW2B2bCAfwGtXXAaRtqM1vEt4buD9kCkoQjuwKY8Tw8fVzywcpc+W2974ySW45BLqh8FcaXiL4YDvzmXn6rn+CossFVsx50gFjVFtKAc84GU5NvLc8PBfvOI8bB9lXCnj3lV6+vjmx+hiRBiNo3f8BX1C9AfyrJX7/4GlOPdZLlbeqIDztpHlnvNstHIVqUyjIYzw8tHU3Xc2dS0zkw7vGT/LN9Heu4DkZ4O+VHSrHv+xgajZOfXUd3c1v4/f6l8AzToaTV95dM1zgL6PZSmZFzSRnOPbFCaZm49RV19LV3Inf6y92zfP1q7Xr2d1NwCOrRSXsBJd/G6dpexMP+HfwZO0TNNyzd3HaJ6a/LQYOMGhAR9xE/pH4k6Ojx5majVPlrSp62u+Ufi6RvkjlfFnqBlDpZshW3928sOd5LsVHuXrrh3Wws0exALRfCH2o8HLx2YoxoB8MHo6+agCMpb1kC8jNUtJ4tAcWCpKF0vnMJho4HQvGJhcNANy8te0EMFpytDLm+FKduWZ+UbotY8uEwP0lga9WlAJEQ9FpwQQU4qWAG9sJ5L8NltwFg+H+a5bHeVjRSxsGV8Yso/tjR2I/5nctexnFnor9rr50q0APkFoHOgV0l9veg8u9isDF4/TQ+cP1SOYoynNrKFz/QfWs8WhPbrevpIIGcor0RSrnPOmAqLagNIpQp1CzkGRGlUkVvhd0JF2RGLrYenHOTd5/AbNNa+7OUGbqAAAAAElFTkSuQmCC";
-    NSString *base64ImageOff = @"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAADsAAAA7AF5KHG9AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAxVJREFUWIW9l0tsTFEYx3/fmb5MR2sjIamoSStE4xkNO0VFp1ZEwgILiZXEwqJEUoJoaiEiEs9ERBAkIlJDvSORio3nLKjOjKpHYoEy1HDns5hp9XXn3o4Z/9093z3f739vzvnOdwSX0oq6EhJaj+pCYAZQDoxJhT8DUeAxqrcpLLoiLy5/dZNXHMH+wGQSVgPCKsDr0u930LOINkv4RntGBrRs5Sjyu3cBm4A8l+DB+gW6H403SvRuj2sD6q+tRM1FoCpD8OCMD0jIcnnd+t7RgE6sm4VJtAJjswPvUxdIvUSuPbU1kPry+zmA/zWhnrkSDX7oHTB98PIFRai5kEM4QBlitWjZylFDDCCFu0lur1xrDgXdW/qwkNpqaoXIfLWPVN9QT6VEgx+SfyBhNWQN7i2CzevgyHZYHQAZdqP5wGoEEK2oK8FKvMd9kbGXzwsn98CsKX/Hth2As8Hh3o5RUDjekND6nMEBaqrtZhTzsydgUrU9N3CAl1H7eWIWGv515aeDP2+HQ+fSTE5MN8Ak2/joYji6A162wOWDMNU/MviarRD7kcaA+A1QYhvfuBoWz4O8PKiqgDN7oarSPfzLtzRwAEpN2rC/bNDrPjjVBPNnZAMOJCtht230RtvQsVIfnG7OChz4YoCIbfjCdThxyV2qUAes2zYSOKBhAzy2jyvsPuJsItQBa7fCJ/ufOayEJwbV2+lNOpjIFA6g5pahON4CxDIy8S9wiOHtuZo8DSctOQ6y3nGKCKyohUXz4NVrOHzeYZ+n1TGJtG5IHce1lagJAfmZZhuh4ljWVOm8GTYAydZZ9/8nOKjsk86bYejfEWm8EfTBf8C3kSc7eh8GNqXlgXGI9RCYkCP4O37lV0tXy9vegQGlONmtyjKgKwfwN4hnaX/4EAMAErn2FI+ZDdzLIrwN9VRLOPhscGDYw0heXf2IxyxB2IlTjUivOKpNeExN/7vAAJZTBi0PjAOrEWEtUOwSHAM5jfW7uXe128nRQJ+RaQt8xArqMdSgMpNkI9P/eh5BeIRyB+/PoITuujqV/gBh4iC9luuB4gAAAABJRU5ErkJggg==";
-
-    NSData *imageData;
-    BOOL isSwitchOn = [defaults boolForKey:preferencesKey];
-    if (isSwitchOn) {
-        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOn options:0];
-    } else {
-        imageData = [[NSData alloc] initWithBase64EncodedString:base64ImageOff options:0];
-    }
-
-    UIImage *image = [UIImage imageWithData:imageData];
-    UIColor *imageColor = [UIColor colorWithPatternImage:image];
-
-    // Set the initial background image instead of color
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
-    self.backgroundColor = imageColor; // Set the image as the background
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
+    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
