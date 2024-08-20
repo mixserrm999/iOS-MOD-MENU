@@ -335,7 +335,7 @@ void restoreLastSession() {
         }
     }
 
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    // สร้าง UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
     self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
     self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
     self.layer.borderWidth = 1.0f;
@@ -343,56 +343,29 @@ void restoreLastSession() {
     self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
-
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 40, 40)]; // ตั้งขนาดให้เท่ากับ UIView
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
+    switchLabel.textAlignment = NSTextAlignmentCenter; // ข้อความจัดตำแหน่งกลาง
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
-    // Step 1: Configure the label's initial border properties
-    switchLabel.layer.borderColor = [UIColor whiteColor].CGColor; // Initial border color
-    switchLabel.layer.borderWidth = 1.0f; // Initial border width
 
-    // Step 2: Create a border color animation
-    CABasicAnimation *borderColorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
-    borderColorAnimation.fromValue = (id)[UIColor whiteColor].CGColor;
-    borderColorAnimation.toValue = (id)[UIColor redColor].CGColor;
-    borderColorAnimation.duration = 1.0; // Duration of animation in seconds
-    borderColorAnimation.autoreverses = YES; // Reverse animation
-    borderColorAnimation.repeatCount = HUGE_VALF; // Infinite repeat
-
-    // Step 3: Create a border width animation (Optional)
-    CABasicAnimation *borderWidthAnimation = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
-    borderWidthAnimation.fromValue = @1.0f; // Initial width
-    borderWidthAnimation.toValue = @3.0f;   // Final width
-    borderWidthAnimation.duration = 1.0;    // Duration of animation in seconds
-    borderWidthAnimation.autoreverses = YES; // Reverse animation
-    borderWidthAnimation.repeatCount = HUGE_VALF; // Infinite repeat
-
-    // Step 4: Add the animations to the label's layer
-    [switchLabel.layer addAnimation:borderColorAnimation forKey:@"borderColorAnimation"];
-    [switchLabel.layer addAnimation:borderWidthAnimation forKey:@"borderWidthAnimation"];
-
-
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
-
+    // สร้างปุ่ม infoButton และตั้งค่าให้เล็กลงและอยู่ภายในกรอบของ switchLabel
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
+    infoButton.frame = CGRectMake(0, 0, 20, 20); // ขนาดของ infoButton
     infoButton.tintColor = infoButtonColor;
 
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
+    // เพิ่ม UITapGestureRecognizer ให้กับ infoButton
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+
+    // ตั้งค่าให้ infoButton อยู่ที่มุมล่างขวาของ switchLabel
+    infoButton.center = CGPointMake(self.frame.size.width - infoButton.frame.size.width / 2, self.frame.size.height - infoButton.frame.size.height / 2);
+
     
 
     return self;
