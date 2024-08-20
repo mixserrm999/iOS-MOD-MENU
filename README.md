@@ -1,4 +1,17 @@
 # iOS Mod Menu Template for Theos!
+# install theos on google shell
+### anything Y
+```
+ bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+```
+### download and install sdk Os13.6
+```
+wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/set_sdk.sh && chmod +x set_sdk.sh && ./set_sdk.sh
+```
+### for delete folder and project
+```
+wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/setup_alias.sh && chmod +x setup_alias.sh && ./setup_alias.sh && source ~/.bashrc
+```
 
 <div style="text-align: center;">
 <b>Sample UI of the Menu:</b><br>
