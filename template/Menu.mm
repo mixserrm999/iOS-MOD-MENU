@@ -345,7 +345,7 @@ void restoreLastSession() {
 
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 50, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
@@ -359,7 +359,7 @@ void restoreLastSession() {
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(70, 15, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
     // เพิ่ม border ให้กับ switchLabel
