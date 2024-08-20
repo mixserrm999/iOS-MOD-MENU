@@ -9,9 +9,11 @@
 wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/set_sdk.sh && chmod +x set_sdk.sh && ./set_sdk.sh
 ```
 ### for delete folder and project
-### t = $THEOS/bin/nic.pl
-### d = rm /home/--/theos/vendor/templates/<floder-MyProject.nic.tar>
+```
+* t = $THEOS/bin/nic.pl
+* d = rm /home/--/theos/vendor/templates/<floder-MyProject.nic.tar>
 * dd = rm -r /home/--/<MyFolder-Project>
+```
 
 ```
 wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/setup_alias.sh && chmod +x setup_alias.sh && ./setup_alias.sh && source ~/.bashrc
