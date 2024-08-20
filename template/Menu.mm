@@ -344,7 +344,7 @@ void restoreLastSession() {
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.frame = CGRectMake(menuWidth - 120, 15, 20, 20);
     infoButton.layer.borderWidth = 1.0;
     infoButton.layer.borderColor = [UIColor redColor].CGColor;
     infoButton.backgroundColor = [UIColor lightGrayColor];
