@@ -20,6 +20,7 @@ void setup() {
   */
 
   // Empty switch - usefull with hooking
+  /*
   [switches addSwitch:NSSENCRYPT("TEST")
     description:NSSENCRYPT("TWST")
   ];
@@ -27,95 +28,105 @@ void setup() {
   [switches addSwitch:NSSENCRYPT("TEST2")
     description:NSSENCRYPT("TEST2")
   ];
+  */
   
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-  
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-  
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST2")
-    description:NSSENCRYPT("TEST2")
-  ];
-  
-  [switches addSwitch:NSSENCRYPT("TEST")
-    description:NSSENCRYPT("TWST")
-  ];
-
-  [switches addSwitch:NSSENCRYPT("TEST3")
-    description:NSSENCRYPT("TEST3")
-  ];
 
   // Offset Switch with one patch
-  /* [switches addOffsetSwitch:NSSENCRYPT("Show MiniMap")
-    description:NSSENCRYPT("show player on mini map")
+  [switches addOffsetSwitch:NSSENCRYPT("IsHandcuffed") // bool
+    description:NSSENCRYPT("IsHandcuffed animation")
     offsets: {
-      ENCRYPTOFFSET("0x2160628")
+      ENCRYPTOFFSET("0x1BE1AB0")
     }
     bytes: {
       ENCRYPTHEX("20008052C0035FD6")
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("no spread")
-    description:NSSENCRYPT("no spread shooting")
+  [switches addOffsetSwitch:NSSENCRYPT("SkinnedMeshQuality") // float 0-1
+    description:NSSENCRYPT("")
     offsets: {
-      ENCRYPTOFFSET("0x22C72EC")
+      ENCRYPTOFFSET("0x1BE066C")
     }
     bytes: {
       ENCRYPTHEX("E003271EC0035FD6")
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("On Reload")
-    description:NSSENCRYPT("Reload")
+  [switches addOffsetSwitch:NSSENCRYPT("GetArmour") // float
+    description:NSSENCRYPT("")
     offsets: {
-      ENCRYPTOFFSET("0x2166184")
+      ENCRYPTOFFSET("0x1BEC164"),
+      ENCRYPTOFFSET("0x1BEC15C")
     }
     bytes: {
-      ENCRYPTHEX("00008052C0035FD6")
+      ENCRYPTHEX(""),
+      ENCRYPTHEX("")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("Reload") // int 0 bool 0
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("0x1BEF5BC")
+    }
+    bytes: {
+      ENCRYPTHEX("20008052C0035FD6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("ToggleAutoFire") // bool 1
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("0x1BEF47C")
+    }
+    bytes: {
+      ENCRYPTHEX("")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("GetSpeed") // float
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("0x170DDE8")
+    }
+    bytes: {
+      ENCRYPTHEX("")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("")
+    }
+    bytes: {
+      ENCRYPTHEX("")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("")
+    }
+    bytes: {
+      ENCRYPTHEX("")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
+    description:NSSENCRYPT("")
+    offsets: {
+      ENCRYPTOFFSET("")
+    }
+    bytes: {
+      ENCRYPTHEX("")
     }
   ];
 
   // Offset switch with multiple patches
+  /*
+
   [switches addOffsetSwitch:NSSENCRYPT("No Recoil")
     description:NSSENCRYPT("Remove Animation fireRate / camera")
     offsets: {
@@ -130,17 +141,7 @@ void setup() {
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("On")
-    description:NSSENCRYPT("On")
-    offsets: {
-      ENCRYPTOFFSET("0x212A268")
-    }
-    bytes: {
-      ENCRYPTHEX("0090261EC0035FD6")
-    }
-  ];
   */
-
 
   /*
 
