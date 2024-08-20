@@ -343,6 +343,13 @@ void restoreLastSession() {
     self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+    infoButton.tintColor = infoButtonColor;
+
+    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [infoButton addGestureRecognizer:infoTap];
+    [self addSubview:infoButton];
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
     switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
@@ -358,17 +365,7 @@ void restoreLastSession() {
     [self addSubview:switchLabel];
 
 
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
-    infoButton.tintColor = infoButtonColor;
-
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
-    [self addSubview:infoButton];
+    
     
 
     return self;
