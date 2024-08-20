@@ -27,7 +27,7 @@ UIScrollView *scrollView;
 CGFloat menuWidth;
 CGFloat scrollViewX;
 NSString *credits;
-NSString *switchOnColor;
+UIColor *switchOnColor;
 NSString *switchTitleFont;
 UIColor *switchTitleColor;
 UIColor *infoButtonColor;
@@ -48,7 +48,7 @@ Menu *menu = [Menu alloc];
 Switches *switches = [Switches alloc];
 
 
--(id)initWithTitle:(NSString *)title_ titleColor:(UIColor *)titleColor_ titleFont:(NSString *)titleFont_ credits:(NSString *)credits_ headerColor:(UIColor *)headerColor_ switchOffColor:(NSString *)switchOffColor_ switchOnColor:(NSString *)switchOnColor_ switchTitleFont:(NSString *)switchTitleFont_ switchTitleColor:(UIColor *)switchTitleColor_ infoButtonColor:(UIColor *)infoButtonColor_ maxVisibleSwitches:(int)maxVisibleSwitches_ menuWidth:(CGFloat )menuWidth_ menuIcon:(NSString *)menuIconBase64_ menuButton:(NSString *)menuButtonBase64_ {
+-(id)initWithTitle:(NSString *)title_ titleColor:(UIColor *)titleColor_ titleFont:(NSString *)titleFont_ credits:(NSString *)credits_ headerColor:(UIColor *)headerColor_ switchOffColor:(UIColor *)switchOffColor_ switchOnColor:(UIColor *)switchOnColor_ switchTitleFont:(NSString *)switchTitleFont_ switchTitleColor:(UIColor *)switchTitleColor_ infoButtonColor:(UIColor *)infoButtonColor_ maxVisibleSwitches:(int)maxVisibleSwitches_ menuWidth:(CGFloat )menuWidth_ menuIcon:(NSString *)menuIconBase64_ menuButton:(NSString *)menuButtonBase64_ {
     mainWindow = [UIApplication sharedApplication].keyWindow;
     defaults = [NSUserDefaults standardUserDefaults];
 
@@ -351,6 +351,30 @@ void restoreLastSession() {
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
     switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
+    // Step 1: Configure the label's initial border properties
+    switchLabel.layer.borderColor = [UIColor whiteColor].CGColor; // Initial border color
+    switchLabel.layer.borderWidth = 1.0f; // Initial border width
+
+    // Step 2: Create a border color animation
+    CABasicAnimation *borderColorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+    borderColorAnimation.fromValue = (id)[UIColor whiteColor].CGColor;
+    borderColorAnimation.toValue = (id)[UIColor redColor].CGColor;
+    borderColorAnimation.duration = 1.0; // Duration of animation in seconds
+    borderColorAnimation.autoreverses = YES; // Reverse animation
+    borderColorAnimation.repeatCount = HUGE_VALF; // Infinite repeat
+
+    // Step 3: Create a border width animation (Optional)
+    CABasicAnimation *borderWidthAnimation = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
+    borderWidthAnimation.fromValue = @1.0f; // Initial width
+    borderWidthAnimation.toValue = @3.0f;   // Final width
+    borderWidthAnimation.duration = 1.0;    // Duration of animation in seconds
+    borderWidthAnimation.autoreverses = YES; // Reverse animation
+    borderWidthAnimation.repeatCount = HUGE_VALF; // Infinite repeat
+
+    // Step 4: Add the animations to the label's layer
+    [switchLabel.layer addAnimation:borderColorAnimation forKey:@"borderColorAnimation"];
+    [switchLabel.layer addAnimation:borderWidthAnimation forKey:@"borderWidthAnimation"];
+
 
     // เพิ่ม border ให้กับ switchLabel
     // switchLabel.layer.borderWidth = 1.0f;
