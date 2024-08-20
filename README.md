@@ -6,7 +6,7 @@
 ```
 ### download and install sdk Os13.6
 ```
--
+wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/set_sdk.sh && chmod +x set_sdk.sh && ./set_sdk.sh
 ```
 ### for delete folder and project
 ```
