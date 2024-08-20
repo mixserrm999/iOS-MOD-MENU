@@ -6,7 +6,7 @@ DEST_DIR="/home/sermixsummoner/theos/sdks"
 ZIP_FILE="${DEST_DIR}/iPhoneOS13.6.sdk.zip"
 
 # ดาวน์โหลดไฟล์
-wget -O "$ZIP_FILE" "$DOWNLOAD_URL"
+wget -O "$DOWNLOAD_URL"
 
 # ตรวจสอบการดาวน์โหลด
 if [ $? -ne 0 ]; then
