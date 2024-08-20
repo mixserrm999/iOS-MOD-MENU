@@ -5,9 +5,6 @@ DOWNLOAD_URL="https://github.com/xybp888/iOS-SDKs/releases/download/iOS-SDKs/iPh
 DEST_DIR="/home/sermixsummoner/theos/sdks"
 ZIP_FILE="${DEST_DIR}/iPhoneOS13.6.sdk.zip"
 
-# สร้างไดเรกทอรีปลายทางถ้ายังไม่มี
-mkdir -p "$DEST_DIR"
-
 # ดาวน์โหลดไฟล์
 wget -O "$ZIP_FILE" "$DOWNLOAD_URL"
 
