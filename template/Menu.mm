@@ -347,8 +347,8 @@ void restoreLastSession() {
     infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
     infoButton.tintColor = infoButtonColor;
 
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
+    // เพิ่ม action ให้กับปุ่มโดยตรง
+    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:infoButton];
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
@@ -359,10 +359,11 @@ void restoreLastSession() {
     switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
+
+    // นำปุ่ม infoButton มาขึ้นมาอยู่ด้านหน้า
+    [self bringSubviewToFront:infoButton];
+
 
 
     
