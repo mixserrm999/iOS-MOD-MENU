@@ -35,7 +35,6 @@
 	NSString *preferencesKey;
 	NSString *description;
     UILabel *switchLabel;
-	UIImageView *statusImageView; // เพิ่ม UIImageView
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_;
@@ -45,8 +44,6 @@
 -(NSString *)getDescription;
 - (std::vector<MemoryPatch>)getMemoryPatches;
 
-// เพิ่มเมธอดนี้
-- (void)updateImageForState:(BOOL)isOn;
 
 @end
 

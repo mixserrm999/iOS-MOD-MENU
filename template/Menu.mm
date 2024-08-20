@@ -259,25 +259,23 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    [UIView animateWithDuration:0.3 animations:^{
-        if ([switch_ isKindOfClass:[TextFieldSwitch class]]) {
-            ((TextFieldSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
-            [((TextFieldSwitch *)switch_) updateImageForState:isSwitchOn_];
+    UIColor *clearColor = [UIColor clearColor];
+
+    [UIView animateWithDuration:0.3 animations:^ {
+        if([switch_ isKindOfClass:[TextFieldSwitch class]]) {
+            ((TextFieldSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
-        if ([switch_ isKindOfClass:[SliderSwitch class]]) {
-            ((SliderSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
-            [((SliderSwitch *)switch_) updateImageForState:isSwitchOn_];
+        if([switch_ isKindOfClass:[SliderSwitch class]]) {
+            ((SliderSwitch*)switch_).backgroundColor = isSwitchOn_ ? clearColor : switchOnColor;
         }
         if ([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            ((OffsetSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
-            [((OffsetSwitch *)switch_) updateImageForState:isSwitchOn_];
+            NSString *imageName = isSwitchOn_ ? @"correct.png" : @"check.png";
+            [((OffsetSwitch *)switch_) setBackgroundImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
-
-
 
 /*********************************************************************************************
     This method does the following handles the behaviour when a switch has been clicked
@@ -324,13 +322,12 @@ void restoreLastSession() {
     description = description_;
     preferencesKey = hackName_;
 
-    if(offsets_.size() != bytes_.size()){
+    if (offsets_.size() != bytes_.size()) {
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
     } else {
-        // For each offset, we create a MemoryPatch.
-        for(int i = 0; i < offsets_.size(); i++) {
+        for (int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
-            if(patch.isValid()) {
+            if (patch.isValid()) {
                 memoryPatches.push_back(patch);
             } else {
                 [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
@@ -338,58 +335,49 @@ void restoreLastSession() {
         }
     }
 
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    // Initializing the OffsetSwitch with a small box appearance
     self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
-    self.backgroundColor = [UIColor clearColor];
-    self.layer.borderWidth = 1.0f;
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.cornerRadius = self.frame.size.width / 2.0;
-    self.clipsToBounds = NO;
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.cornerRadius = self.frame.size.width / 2.0;
+        self.clipsToBounds = NO;
 
-    // เพิ่ม UIImageView
-    self.statusImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    self.statusImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:self.statusImageView];
+        // Set initial background image to check.png
+        [self setBackgroundImage:[UIImage imageNamed:@"check.png"] forState:UIControlStateNormal];
 
+        switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+        switchLabel.text = hackName_;
+        switchLabel.textColor = switchTitleColor;
+        switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
+        switchLabel.textAlignment = NSTextAlignmentLeft;
+        switchLabel.lineBreakMode = NSLineBreakByClipping;
+        [self addSubview:switchLabel];
 
-    // ปรับขนาดและตำแหน่งของ switchLabel
-    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
-    switchLabel.text = hackName_;
-    switchLabel.textColor = switchTitleColor;
-    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft;
-    switchLabel.lineBreakMode = NSLineBreakByClipping;
-    [self addSubview:switchLabel];
-
-    // เพิ่ม infoButton
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
-    infoButton.tintColor = infoButtonColor;
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
-    [self addSubview:infoButton];
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        infoButton.frame = CGRectMake(menuWidth - 0, 0, 0, 0);
+        infoButton.tintColor = infoButtonColor;
+        UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+        [infoButton addGestureRecognizer:infoTap];
+        [self addSubview:infoButton];
+    }
 
     return self;
 }
 
-- (void)updateImageForState:(BOOL)isOn {
-    NSString *imageName = isOn ? @"correct.png" : @"check.png";
-    self.statusImageView.image = [UIImage imageNamed:imageName];
-}
-
-
--(void)showInfo:(UIGestureRecognizer *)gestureRec {
-    if(gestureRec.state == UIGestureRecognizerStateEnded) {
+- (void)showInfo:(UIGestureRecognizer *)gestureRec {
+    if (gestureRec.state == UIGestureRecognizerStateEnded) {
         [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
         menu.layer.opacity = 0.0f;
     }
 }
 
--(NSString *)getPreferencesKey {
+- (NSString *)getPreferencesKey {
     return preferencesKey;
 }
 
--(NSString *)getDescription {
+- (NSString *)getDescription {
     return description;
 }
 
@@ -397,7 +385,8 @@ void restoreLastSession() {
     return memoryPatches;
 }
 
-@end //end of OffsetSwitch class
+@end
+
 
 
 /**************************************
