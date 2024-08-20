@@ -259,22 +259,24 @@ void restoreLastSession() {
 }
 
 - (void)changeSwitchBackground:(id)switch_ isSwitchOn:(BOOL)isSwitchOn_ {
-    NSString *imageName = isSwitchOn_ ? @"correct.png" : @"check.png";
-
     [UIView animateWithDuration:0.3 animations:^{
-        if([switch_ isKindOfClass:[TextFieldSwitch class]]) {
-            ((TextFieldSwitch*)switch_).statusImageView.image = [UIImage imageNamed:imageName];
+        if ([switch_ isKindOfClass:[TextFieldSwitch class]]) {
+            ((TextFieldSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
+            [((TextFieldSwitch *)switch_) updateImageForState:isSwitchOn_];
         }
-        if([switch_ isKindOfClass:[SliderSwitch class]]) {
-            ((SliderSwitch*)switch_).statusImageView.image = [UIImage imageNamed:imageName];
+        if ([switch_ isKindOfClass:[SliderSwitch class]]) {
+            ((SliderSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
+            [((SliderSwitch *)switch_) updateImageForState:isSwitchOn_];
         }
-        if([switch_ isKindOfClass:[OffsetSwitch class]]) {
-            ((OffsetSwitch*)switch_).statusImageView.image = [UIImage imageNamed:imageName];
+        if ([switch_ isKindOfClass:[OffsetSwitch class]]) {
+            ((OffsetSwitch *)switch_).statusImageView.image = [UIImage imageNamed:isSwitchOn_ ? @"correct.png" : @"check.png"];
+            [((OffsetSwitch *)switch_) updateImageForState:isSwitchOn_];
         }
     }];
 
     [defaults setBool:!isSwitchOn_ forKey:[switch_ getPreferencesKey]];
 }
+
 
 
 /*********************************************************************************************
@@ -349,6 +351,7 @@ void restoreLastSession() {
     self.statusImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.statusImageView];
 
+
     // ปรับขนาดและตำแหน่งของ switchLabel
     switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
     switchLabel.text = hackName_;
@@ -371,9 +374,9 @@ void restoreLastSession() {
 
 - (void)updateImageForState:(BOOL)isOn {
     NSString *imageName = isOn ? @"correct.png" : @"check.png";
-    UIImage *image = [UIImage imageNamed:imageName];
-    self.statusImageView.image = image;
+    self.statusImageView.image = [UIImage imageNamed:imageName];
 }
+
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
     if(gestureRec.state == UIGestureRecognizerStateEnded) {
