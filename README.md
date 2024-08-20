@@ -13,9 +13,6 @@ wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/set_sdk.sh 
 ### d = rm /home/--/theos/vendor/templates/<floder-MyProject.nic.tar
 ### dd = rm -r /home/--/<MyFolder-Project>
 
-echo "alias d='rm /home/sermixsummoner/theos/vendor/templates/SERMIX.MOD.MENU.v0.1.0.nic.tar'" >> ~/.bashrc
-echo "alias dd='rm -r /home/sermixsummoner/SERMIX'" >> ~/.bashrc
-echo "alias t='$THEOS/bin/nic.pl'" >> ~/.bashrc
 ```
 wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/setup_alias.sh && chmod +x setup_alias.sh && ./setup_alias.sh && source ~/.bashrc
 ```
