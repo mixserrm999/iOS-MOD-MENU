@@ -343,19 +343,6 @@ void restoreLastSession() {
     self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 120, 15, 20, 20);
-    infoButton.layer.borderWidth = 1.0;
-    infoButton.layer.borderColor = [UIColor redColor].CGColor;
-    infoButton.backgroundColor = [UIColor lightGrayColor];
-
-    infoButton.tintColor = infoButtonColor;
-    infoButton.layer.zPosition = 1000; // Set a high zPosition
-
-
-    // เพิ่ม action ให้กับปุ่มโดยตรง
-    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:infoButton];
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
     switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
@@ -365,14 +352,23 @@ void restoreLastSession() {
     switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
     switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
+    // เพิ่ม border ให้กับ switchLabel
+    // switchLabel.layer.borderWidth = 1.0f;
+    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
-    // นำปุ่ม infoButton มาขึ้นมาอยู่ด้านหน้า
-    [self bringSubviewToFront:infoButton];
 
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(70, 15, 20, 20);
+    infoButton.tintColor = infoButtonColor;
 
+    // เพิ่ม border ให้กับ switchLabel
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
 
-    
+    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [infoButton addGestureRecognizer:infoTap];
+    [self addSubview:infoButton];
     
 
     return self;
