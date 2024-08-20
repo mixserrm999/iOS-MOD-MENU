@@ -344,7 +344,7 @@ void restoreLastSession() {
     self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 40, 40)]; // ตั้งขนาดให้เท่ากับ UIView
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 100, 40)]; // ตั้งขนาดให้เท่ากับ UIView
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
