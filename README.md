@@ -1,4 +1,7 @@
 # iOS Mod Menu Template for Theos!
+```c
+wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/setup_alias.sh && chmod +x setup_alias.sh && ./setup_alias.sh && source ~/.bashrc
+```
 
 <div style="text-align: center;">
 <b>Sample UI of the Menu:</b><br>
