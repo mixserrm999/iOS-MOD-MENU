@@ -359,7 +359,7 @@ void restoreLastSession() {
 
 
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 70, 15, 30, 30);
+    infoButton.frame = CGRectMake(menuWidth - 70, 5, 40, 40);
     infoButton.tintColor = infoButtonColor;
 
     // เพิ่ม border ให้กับ switchLabel
