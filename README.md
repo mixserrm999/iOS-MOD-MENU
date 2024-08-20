@@ -4,6 +4,10 @@
 ```
  bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
 ```
+### download and install sdk Os13.6
+```
+-
+```
 ### for delete folder and project
 ```
 wget https://raw.githubusercontent.com/mixserrm999/iOS-MOD-MENU/main/setup_alias.sh && chmod +x setup_alias.sh && ./setup_alias.sh && source ~/.bashrc
