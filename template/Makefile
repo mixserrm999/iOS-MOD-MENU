@@ -38,6 +38,7 @@ PROJ_COMMON_FRAMEWORKS = UIKit Foundation Security QuartzCore CoreGraphics CoreT
 KITTYMEMORY_SRC = $(wildcard KittyMemory/*.cpp)
 SCLALERTVIEW_SRC =  $(wildcard SCLAlertView/*.m)
 IMGUI_SRC = $(wildcard IMGUI/*.cpp) $(wildcard IMGUI/*.mm)
+IMG_SRC = $(wildcard correct.png) $(wildcard check.png)
 MENU_SRC = Menu.mm
 
 include $(THEOS)/makefiles/common.mk

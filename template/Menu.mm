@@ -281,23 +281,27 @@ void restoreLastSession() {
     TextfieldSwitch and SliderSwitch only change from color based on whether it's on or not.
     A OffsetSwitch does too, but it also applies offset patches
 ***********************************************************************************************/
--(void)switchClicked:(id)switch_ {
+- (void)switchClicked:(id)switch_ {
     BOOL isOn = [defaults boolForKey:[switch_ getPreferencesKey]];
 
     if([switch_ isKindOfClass:[OffsetSwitch class]]) {
-        std::vector<MemoryPatch> memoryPatches = [switch_ getMemoryPatches];
+        OffsetSwitch *offsetSwitch = (OffsetSwitch *)switch_;
+        std::vector<MemoryPatch> memoryPatches = [offsetSwitch getMemoryPatches];
         for(int i = 0; i < memoryPatches.size(); i++) {
-            if(!isOn){
+            if(!isOn) {
                 memoryPatches[i].Modify();
             } else {
                 memoryPatches[i].Restore();
-           }
+            }
         }
+        // อัพเดตภาพของ OffsetSwitch ตามสถานะ
+        [offsetSwitch updateImageForState:!isOn];
     }
 
     // Update switch background color and pref value.
     [self changeSwitchBackground:switch_ isSwitchOn:isOn];
 }
+
 
 -(void)setFrameworkName:(const char *)name_ {
     frameworkName = name_;
@@ -315,6 +319,7 @@ void restoreLastSession() {
 
 @implementation OffsetSwitch {
     std::vector<MemoryPatch> memoryPatches;
+    UIImageView *statusImageView; // เพิ่ม UIImageView
 }
 
 - (id)initHackNamed:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::vector<uint64_t>)offsets_ bytes:(std::vector<std::string>)bytes_ {
@@ -335,42 +340,42 @@ void restoreLastSession() {
         }
     }
 
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
-    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
-    self.layer.borderWidth = 1.0f;
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
-    self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.cornerRadius = self.frame.size.width / 2.0;
+        self.clipsToBounds = NO;
 
+        switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
+        switchLabel.text = hackName_;
+        switchLabel.textColor = switchTitleColor;
+        switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
+        switchLabel.textAlignment = NSTextAlignmentLeft;
+        switchLabel.lineBreakMode = NSLineBreakByClipping;
+        [self addSubview:switchLabel];
 
-    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, menuWidth, 30)];
-    switchLabel.text = hackName_;
-    switchLabel.textColor = switchTitleColor;
-    switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
-    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
+        // สร้างและเพิ่ม UIImageView
+        statusImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        statusImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self addSubview:statusImageView];
+        [self updateImageForState:NO]; // เริ่มต้นด้วยภาพ check.png
 
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
-    [self addSubview:switchLabel];
-
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
-    infoButton.tintColor = infoButtonColor;
-
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
-    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:infoButton];
-    
-
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        infoButton.frame = CGRectMake(menuWidth - 30, 15, 20, 20);
+        infoButton.tintColor = infoButtonColor;
+        [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:infoButton];
+    }
     return self;
+}
+
+// อัพเดตภาพตามสถานะ
+- (void)updateImageForState:(BOOL)isOn {
+    NSString *imageName = isOn ? @"correct.png" : @"check.png";
+    UIImage *image = [UIImage imageNamed:imageName];
+    statusImageView.image = image;
 }
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
