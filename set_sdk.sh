@@ -18,7 +18,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # แตกไฟล์ zip ไปยังไดเรกทอรีที่กำหนด
-unzip -o "$ZIP_FILE" -d "$DEST_DIR"
+unzip -o "$ZIP_FILE"
 
 # ตรวจสอบการแตกไฟล์
 if [ $? -ne 0 ]; then
