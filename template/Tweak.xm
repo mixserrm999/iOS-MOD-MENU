@@ -1,7 +1,19 @@
 #import "Macros.h"
 #include "Vector3.h"
 #import "include.h"
+%hook FP_CameraLook
 
+- (void)SetRecoil:(Vector2)KPGOEACPIFF {
+    NSLog(@"SetRecoil Hooked: x = %f, y = %f", KPGOEACPIFF.x, KPGOEACPIFF.y);
+    
+    // ปรับ recoil ตามที่ต้องการ
+    KPGOEACPIFF.x *= 2;
+    KPGOEACPIFF.y *= 2;
+
+    %orig(KPGOEACPIFF);
+}
+
+%end
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
@@ -274,9 +286,39 @@ void setup() {
     }
   ];
 
+  [switches addOffsetSwitch:NSSENCRYPT("GetPlayerMoney")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B10AD8")
+    }
+    bytes: {
+      ENCRYPTHEX("80 0C 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("GetPlayerMoney")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B10AD8")
+    }
+    bytes: {
+      ENCRYPTHEX("80 0C 80 52 01 7D 80 52 00 7C 01 1B C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("MultiplayerLoggedIn")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B14624")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
   // show and copy //
   /*
-  
+
   [switches addOffsetSwitch:NSSENCRYPT("0000000")
     description:NSSENCRYPT("00000000")
     offsets: {
