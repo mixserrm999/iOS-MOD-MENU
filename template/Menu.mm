@@ -92,7 +92,9 @@ Switches *switches = [Switches alloc];
     [self.header addSubview:menuIcon];
 
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.header.bounds), menuWidth_, CGRectGetHeight(self.bounds) - CGRectGetHeight(self.header.bounds))];
-    scrollView.backgroundColor = [switchOffColor_ colorWithAlphaComponent:0.5]; // BodyBackground
+    UIColor *steelBlueColor = [UIColor colorWithRed:70/255.0 green:130/255.0 blue:180/255.0 alpha:1.0];
+    scrollView.backgroundColor = [steelBlueColor colorWithAlphaComponent:0.5]; // BodyBackground
+
     [self addSubview:scrollView];
 
     // we need this for the switches, do not remove.
