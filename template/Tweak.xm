@@ -274,8 +274,9 @@ void setup() {
     }
   ];
 
-  // show and copy 
-
+  // show and copy //
+  /*
+  
   [switches addOffsetSwitch:NSSENCRYPT("0000000")
     description:NSSENCRYPT("00000000")
     offsets: {
@@ -285,6 +286,8 @@ void setup() {
       ENCRYPTHEX("000000000")
     }
   ];
+
+  */
 
   // Offset switch with multiple patches
   /*
