@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Menu.h"
 
-@interface Menu ()
+@interface Menu () <UIScrollViewDelegate>
 
 @property (assign, nonatomic) CGPoint lastMenuLocation;
 @property (strong, nonatomic) UILabel *menuTitle;
@@ -94,6 +94,7 @@ Switches *switches = [Switches alloc];
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.header.bounds), menuWidth_, CGRectGetHeight(self.bounds) - CGRectGetHeight(self.header.bounds))];
     UIColor *steelBlueColor = [UIColor colorWithRed:70/255.0 green:130/255.0 blue:180/255.0 alpha:1.0];
     scrollView.backgroundColor = [steelBlueColor colorWithAlphaComponent:0.5]; // BodyBackground
+    scrollView.delegate = self;
 
     [self addSubview:scrollView];
 
@@ -254,7 +255,7 @@ void restoreLastSession() {
     it also add's an action for when the switch is being clicked.
 ********************************************************************/
 - (void)addSwitchToMenu:(id)switch_ {
-    [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchDown];
+    [switch_ addTarget:self action:@selector(switchClicked:) forControlEvents:UIControlEventTouchUpInside];
     scrollViewHeight += 50;
     scrollView.contentSize = CGSizeMake(menuWidth, scrollViewHeight);
     [scrollView addSubview:switch_];
