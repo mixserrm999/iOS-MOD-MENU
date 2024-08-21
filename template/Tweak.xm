@@ -4,8 +4,24 @@
 %hook FP_CameraLook
 
 - (void)SetRecoil:(Vector3)KPGOEACPIFF {
-    NSLog(@"SetRecoil Hooked: X = %f, Y = %f, Z = %f", KPGOEACPIFF.X, KPGOEACPIFF.Y, KPGOEACPIFF.Z);
+    NSString *recoilInfo = [NSString stringWithFormat:@"SetRecoil Hooked: X = %f, Y = %f, Z = %f", KPGOEACPIFF.X, KPGOEACPIFF.Y, KPGOEACPIFF.Z];
     
+    // สร้าง UILabel เพื่อแสดงข้อความ
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 300, 50)];
+    label.text = recoilInfo;
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor blackColor];
+    label.textAlignment = NSTextAlignmentCenter;
+
+    // เพิ่ม UILabel ลงบนหน้าจอ
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:label];
+
+    // ลบ UILabel ออกหลังจาก 2 วินาที
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [label removeFromSuperview];
+    });
+
     // ปรับ recoil ตามที่ต้องการ
     KPGOEACPIFF.X *= 2;
     KPGOEACPIFF.Y *= 2;
@@ -15,6 +31,7 @@
 }
 
 %end
+
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
