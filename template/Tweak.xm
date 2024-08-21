@@ -3,12 +3,13 @@
 #import "include.h"
 %hook FP_CameraLook
 
-- (void)SetRecoil:(Vector2)KPGOEACPIFF {
-    NSLog(@"SetRecoil Hooked: x = %f, y = %f", KPGOEACPIFF.x, KPGOEACPIFF.y);
+- (void)SetRecoil:(Vector3)KPGOEACPIFF {
+    NSLog(@"SetRecoil Hooked: x = %f, y = %f, z = %f", KPGOEACPIFF.x, KPGOEACPIFF.y, KPGOEACPIFF.z);
     
     // ปรับ recoil ตามที่ต้องการ
     KPGOEACPIFF.x *= 2;
     KPGOEACPIFF.y *= 2;
+    KPGOEACPIFF.z *= 2;
 
     %orig(KPGOEACPIFF);
 }
