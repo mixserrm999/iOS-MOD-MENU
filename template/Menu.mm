@@ -335,29 +335,27 @@ void restoreLastSession() {
         }
     }
 
-    // Set up the OffsetSwitch view as a small square
     self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
     self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.cornerRadius = self.frame.size.width / 2.0;
-    self.clipsToBounds = NO;
+    self.clipsToBounds = NO; // Allow content to overflow outside of the UIView's bounds
 
-    // Set up the switchLabel
-    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 30)];
+    // Adjusted switchLabel frame to keep it within the UIView's bounds for interaction
+    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width + 150, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
     switchLabel.textAlignment = NSTextAlignmentLeft;
     switchLabel.lineBreakMode = NSLineBreakByClipping;
-
-    // Enable user interaction for the switchLabel
     switchLabel.userInteractionEnabled = YES;
 
     // Add tap gesture to switchLabel
     UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [switchLabel addGestureRecognizer:labelTap];
     [self addSubview:switchLabel];
+
 
     // Set up the infoButton
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
