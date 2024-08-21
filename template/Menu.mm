@@ -321,30 +321,28 @@ void restoreLastSession() {
     description = description_;
     preferencesKey = hackName_;
 
-    if(offsets_.size() != bytes_.size()){
+    if (offsets_.size() != bytes_.size()) {
         [menu showPopup:@"Invalid input count" description:[NSString stringWithFormat:@"Offsets array input count (%d) is not equal to the bytes array input count (%d)", (int)offsets_.size(), (int)bytes_.size()]];
     } else {
         // For each offset, we create a MemoryPatch.
-        for(int i = 0; i < offsets_.size(); i++) {
+        for (int i = 0; i < offsets_.size(); i++) {
             MemoryPatch patch = MemoryPatch::createWithHex([menu getFrameworkName], offsets_[i], bytes_[i]);
-            if(patch.isValid()) {
-              memoryPatches.push_back(patch);
+            if (patch.isValid()) {
+                memoryPatches.push_back(patch);
             } else {
-              [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
+                [menu showPopup:@"Invalid patch" description:[NSString stringWithFormat:@"Failing offset: 0x%llx, please re-check the hex you entered.", offsets_[i]]];
             }
         }
     }
 
-    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // กำหนดให้ความกว้างและความสูงเท่ากัน
-    self.backgroundColor = [UIColor clearColor]; // หรือกำหนดสีพื้นหลังถ้าต้องการ
+    // Initialize the view
+    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)]; // Set frame size
+    self.backgroundColor = [UIColor clearColor]; // Set background color
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.cornerRadius = self.frame.size.width / 2.0; // กำหนดให้ cornerRadius เป็นครึ่งหนึ่งของความกว้าง
-    self.clipsToBounds = NO; // เปิดการตัดสิ่งที่อยู่นอกกรอบ UIView
+    self.layer.cornerRadius = self.frame.size.width / 2.0; // Set corner radius
+    self.clipsToBounds = NO; // Allow clipping
 
-
-    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
     // Create switchLabel
     UILabel *switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 30)];
     switchLabel.text = hackName_;
@@ -355,31 +353,22 @@ void restoreLastSession() {
     switchLabel.userInteractionEnabled = YES; // Enable user interaction
     [self addSubview:switchLabel];
 
-    // Add tap gesture to switchLabel if needed
+    // Add tap gesture to switchLabel
     UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [switchLabel addGestureRecognizer:labelTap];
-
-    // Create infoButton
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 50, 5, 40, 40); // Adjusted position
-    infoButton.tintColor = infoButtonColor;
-
-    // Add tap gesture to infoButton
-    UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [infoButton addGestureRecognizer:infoTap];
-    [self addSubview:infoButton];
-
-    
 
     return self;
 }
 
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
-    if(gestureRec.state == UIGestureRecognizerStateEnded) {
+    if (gestureRec.state == UIGestureRecognizerStateEnded) {
         [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
         menu.layer.opacity = 0.0f;
     }
 }
+
+@end
+
 
 -(NSString *)getPreferencesKey {
     return preferencesKey;
