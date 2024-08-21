@@ -345,30 +345,30 @@ void restoreLastSession() {
 
 
     // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
-    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 200, 30)];
+    // Create switchLabel
+    UILabel *switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 30)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
-    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
-
-    // เพิ่ม border ให้กับ switchLabel
-    // switchLabel.layer.borderWidth = 1.0f;
-    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
+    switchLabel.textAlignment = NSTextAlignmentLeft;
+    switchLabel.lineBreakMode = NSLineBreakByClipping;
+    switchLabel.userInteractionEnabled = YES; // Enable user interaction
     [self addSubview:switchLabel];
 
+    // Add tap gesture to switchLabel if needed
+    UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
+    [switchLabel addGestureRecognizer:labelTap];
 
+    // Create infoButton
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(menuWidth - 70, 5, 40, 40);
+    infoButton.frame = CGRectMake(menuWidth - 50, 5, 40, 40); // Adjusted position
     infoButton.tintColor = infoButtonColor;
 
-    // เพิ่ม border ให้กับ switchLabel
-    // infoButton.layer.borderWidth = 1.0f;
-    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
-
+    // Add tap gesture to infoButton
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+
     
 
     return self;
