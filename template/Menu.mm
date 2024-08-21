@@ -544,27 +544,6 @@ void restoreLastSession() {
 
 }
 
-- (void)showRecoilInfo:(NSString *)recoilInfo {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 350, 100)];
-    label.text = recoilInfo;
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor blackColor];
-    label.textAlignment = NSTextAlignmentCenter;
-
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if (!keyWindow) {
-        keyWindow = [UIApplication sharedApplication].windows.firstObject;
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [keyWindow addSubview:label];
-    });
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [label removeFromSuperview];
-    });
-}
-
 - (void)addOffsetSwitch:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::initializer_list<uint64_t>)offsets_ bytes:(std::initializer_list<std::string>)bytes_ {
     std::vector<uint64_t> offsetVector;
     std::vector<std::string> bytesVector;

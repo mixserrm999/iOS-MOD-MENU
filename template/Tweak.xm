@@ -4,20 +4,24 @@
 %hook FP_CameraLook
 
 - (void)SetRecoil:(Vector3)KPGOEACPIFF {
-    NSString *recoilInfo = [NSString stringWithFormat:@"SetRecoil Hooked: X = %f, Y = %f, Z = %f", KPGOEACPIFF.X, KPGOEACPIFF.Y, KPGOEACPIFF.Z];
-
-    // เรียกใช้งานจาก Menu.mm
-    [(Switches *)menu showRecoilInfo:recoilInfo];
-
     // ปรับ recoil ตามที่ต้องการ
     KPGOEACPIFF.X *= 2;
     KPGOEACPIFF.Y *= 2;
     KPGOEACPIFF.Z *= 2;
 
+    // แสดงข้อมูล recoil บนหน้าจอด้วย ImGui
+    ImGui::Begin("Recoil Info");
+    ImGui::Text("SetRecoil Hooked:");
+    ImGui::Text("X: %f", KPGOEACPIFF.X);
+    ImGui::Text("Y: %f", KPGOEACPIFF.Y);
+    ImGui::Text("Z: %f", KPGOEACPIFF.Z);
+    ImGui::End();
+
     %orig(KPGOEACPIFF);
 }
 
 %end
+
 /***********************************************************
   INSIDE THE FUNCTION BELOW YOU'LL HAVE TO ADD YOUR SWITCHES!
 ***********************************************************/
