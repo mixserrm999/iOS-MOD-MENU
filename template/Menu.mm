@@ -335,37 +335,38 @@ void restoreLastSession() {
         }
     }
 
-    self = [super initWithFrame:CGRectMake(20, scrollViewX + scrollViewHeight + 10, 40, 40)];
+    // ลดขนาดของ UIView ให้เป็นกล่องสี่เหลี่ยมขนาดเล็ก
+    self = [super initWithFrame:CGRectMake(-1, scrollViewX + scrollViewHeight - 1, menuWidth + 2, 50)];
     self.backgroundColor = [UIColor clearColor];
-    self.layer.borderWidth = 1.0f;
+    self.layer.borderWidth = 0.5f;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.cornerRadius = self.frame.size.width / 2.0;
-    self.clipsToBounds = NO; // Allow content to overflow outside of the UIView's bounds
 
-    // Adjusted switchLabel frame to keep it within the UIView's bounds for interaction
-    switchLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width + 150, 30)];
+    // ปรับขนาดและตำแหน่งของ switchLabel เพื่อให้ข้อความยาวออกไปนอกกรอบ
+    switchLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, menuWidth - 60, 50)];
     switchLabel.text = hackName_;
     switchLabel.textColor = switchTitleColor;
     switchLabel.font = [UIFont fontWithName:switchTitleFont size:18];
-    switchLabel.textAlignment = NSTextAlignmentLeft;
-    switchLabel.lineBreakMode = NSLineBreakByClipping;
-    switchLabel.userInteractionEnabled = YES;
+    switchLabel.textAlignment = NSTextAlignmentLeft; // ข้อความจัดตำแหน่งไปทางซ้าย
+    switchLabel.lineBreakMode = NSLineBreakByClipping; // ปล่อยให้ข้อความต่อเนื่องออกไปนอกกรอบ
 
-    // Add tap gesture to switchLabel
-    UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
-    [switchLabel addGestureRecognizer:labelTap];
+    // เพิ่ม border ให้กับ switchLabel
+    // switchLabel.layer.borderWidth = 1.0f;
+    //switchLabel.layer.borderColor = [UIColor redColor].CGColor; // ใช้สีแดงเพื่อเน้น
     [self addSubview:switchLabel];
 
 
-    // Set up the infoButton
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(menuWidth - 70, 5, 40, 40);
     infoButton.tintColor = infoButtonColor;
 
-    // Add tap gesture to infoButton
+    // เพิ่ม border ให้กับ switchLabel
+    // infoButton.layer.borderWidth = 1.0f;
+    // infoButton.layer.borderColor = [UIColor blueColor].CGColor; // ใช้สีแดงเพื่อเน้น
+
     UITapGestureRecognizer *infoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInfo:)];
     [infoButton addGestureRecognizer:infoTap];
     [self addSubview:infoButton];
+    
 
     return self;
 }
@@ -373,6 +374,7 @@ void restoreLastSession() {
 -(void)showInfo:(UIGestureRecognizer *)gestureRec {
     if(gestureRec.state == UIGestureRecognizerStateEnded) {
         [menu showPopup:[self getPreferencesKey] description:[self getDescription]];
+        menu.layer.opacity = 0.0f;
     }
 }
 
@@ -388,8 +390,7 @@ void restoreLastSession() {
     return memoryPatches;
 }
 
-@end // end of OffsetSwitch class
-
+@end //end of OffsetSwitch class
 
 
 /**************************************
