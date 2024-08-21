@@ -32,7 +32,7 @@ void setup() {
   
 
   // Offset Switch with one patch
-  [switches addOffsetSwitch:NSSENCRYPT("IsHandcuffed") // bool
+  [switches addOffsetSwitch:NSSENCRYPT("Yes IsHandcuffed") // bool
     description:NSSENCRYPT("IsHandcuffed animation")
     offsets: {
       ENCRYPTOFFSET("0x1BE1AB0")
@@ -42,25 +42,35 @@ void setup() {
     }
   ];
 
+  [switches addOffsetSwitch:NSSENCRYPT("No IsHandcuffed") // bool
+    description:NSSENCRYPT("IsHandcuffed animation")
+    offsets: {
+      ENCRYPTOFFSET("0x1BE1AB0")
+    }
+    bytes: {
+      ENCRYPTHEX("E0 03 27 1E C0 03 5F D6")
+    }
+  ];
+
   [switches addOffsetSwitch:NSSENCRYPT("SkinnedMeshQuality") // float 0-1
-    description:NSSENCRYPT("")
+    description:NSSENCRYPT(" Skinned mesh Quality")
     offsets: {
       ENCRYPTOFFSET("0x1BE066C")
     }
     bytes: {
-      ENCRYPTHEX("E003271EC0035FD6")
+      ENCRYPTHEX("E0 03 27 1E C0 03 5F D6")
     }
   ];
 
   [switches addOffsetSwitch:NSSENCRYPT("GetArmour") // float
-    description:NSSENCRYPT("")
+    description:NSSENCRYPT("this is get armour")
     offsets: {
       ENCRYPTOFFSET("0x1BEC164"),
       ENCRYPTOFFSET("0x1BEC15C")
     }
     bytes: {
-      ENCRYPTHEX(""),
-      ENCRYPTHEX("")
+      ENCRYPTHEX("00 90 24 1E 01 F0 27 1E 02 F0 27 1E 03 90 26 1E 24 08 22 1E 05 08 23 1E C0 03 5F D6"),
+      ENCRYPTHEX("00 90 24 1E 01 F0 27 1E 02 F0 27 1E 03 90 26 1E 24 08 22 1E 05 08 23 1E C0 03 5F D6")
     }
   ];
 
@@ -70,17 +80,17 @@ void setup() {
       ENCRYPTOFFSET("0x1BEF5BC")
     }
     bytes: {
-      ENCRYPTHEX("20008052C0035FD6")
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
     }
   ];
 
   [switches addOffsetSwitch:NSSENCRYPT("ToggleAutoFire") // bool 1
-    description:NSSENCRYPT("")
+    description:NSSENCRYPT("yes is reload")
     offsets: {
       ENCRYPTOFFSET("0x1BEF47C")
     }
     bytes: {
-      ENCRYPTHEX("")
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
     }
   ];
 
@@ -90,37 +100,189 @@ void setup() {
       ENCRYPTOFFSET("0x170DDE8")
     }
     bytes: {
-      ENCRYPTHEX("")
+      ENCRYPTHEX("00 90 22 1E C0 03 5F D6")
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
-    description:NSSENCRYPT("")
+  [switches addOffsetSwitch:NSSENCRYPT("HaveArmours") // int 0 bool 0
+    description:NSSENCRYPT("yes HaveArmours")
     offsets: {
-      ENCRYPTOFFSET("")
+      ENCRYPTOFFSET("0x170FBB4")
     }
     bytes: {
-      ENCRYPTHEX("")
+      ENCRYPTHEX("80 02 80 52 C0 03 5F D6")
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
-    description:NSSENCRYPT("")
+  [switches addOffsetSwitch:NSSENCRYPT("HaveMedKit") // int 0 bool 0
+    description:NSSENCRYPT("yes HaveMedKit")
     offsets: {
-      ENCRYPTOFFSET("")
+      ENCRYPTOFFSET("0x170FE84")
     }
     bytes: {
-      ENCRYPTHEX("")
+      ENCRYPTHEX("20 03 80 52 C0 03 5F D6")
     }
   ];
 
-  [switches addOffsetSwitch:NSSENCRYPT("") // int 0 bool 0
-    description:NSSENCRYPT("")
+  [switches addOffsetSwitch:NSSENCRYPT("SetMedKit") // int 0 bool 0
+    description:NSSENCRYPT("is set medkit")
     offsets: {
-      ENCRYPTOFFSET("")
+      ENCRYPTOFFSET("0x17102FC")
     }
     bytes: {
-      ENCRYPTHEX("")
+      ENCRYPTHEX("20 03 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("MuteMusic")
+    description:NSSENCRYPT("MuteMusic")
+    offsets: {
+      ENCRYPTOFFSET("0x177476C")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CanDamageCharacter")
+    description:NSSENCRYPT("CanDamageCharacter")
+    offsets: {
+      ENCRYPTOFFSET("0x17795E0")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CanHandcuffCharacter")
+    description:NSSENCRYPT("CanHandcuffCharacter")
+    offsets: {
+      ENCRYPTOFFSET("0x1779990")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("reload weapon")
+    description:NSSENCRYPT("reload weapon animation")
+    offsets: {
+      ENCRYPTOFFSET("0x1B87254")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("Get_speed")
+    description:NSSENCRYPT("speed")
+    offsets: {
+      ENCRYPTOFFSET("0x1609904")
+    }
+    bytes: {
+      ENCRYPTHEX("00 90 22 1E C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("GetShootLookSensitivity")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B0F6D8")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("No SetHideChat")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B0EB24")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("Yes SetHideChat")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B0EB24")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("GetWeaponAmmo")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B03258")
+    }
+    bytes: {
+      ENCRYPTHEX("00 32 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("GetSpecialWeaponAmmo")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B12260")
+    }
+    bytes: {
+      ENCRYPTHEX("00 32 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("ReloadShotgunDone")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B874B4")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("FinishReloading")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B87520")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("ReloadWeaponDone")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B87424")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("HideDone")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1B87154")
+    }
+    bytes: {
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6")
+    }
+  ];
+
+  // show and copy 
+
+  [switches addOffsetSwitch:NSSENCRYPT("0000000")
+    description:NSSENCRYPT("00000000")
+    offsets: {
+      ENCRYPTOFFSET("0x1609904")
+    }
+    bytes: {
+      ENCRYPTHEX("000000000")
     }
   ];
 
