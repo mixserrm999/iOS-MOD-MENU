@@ -68,6 +68,8 @@
 
 -(void)addSwitch:(NSString *)hackName_ description:(NSString *)description_;
 
+- (void)showRecoilInfo:(NSString *)recoilInfo;
+
 - (void)addOffsetSwitch:(NSString *)hackName_ description:(NSString *)description_ offsets:(std::initializer_list<uint64_t>)offsets_ bytes:(std::initializer_list<std::string>)bytes_;
 
 - (void)addTextfieldSwitch:(NSString *)hackName_ description:(NSString *)description_ inputBorderColor:(UIColor *)inputBorderColor_;
