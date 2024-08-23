@@ -58,7 +58,7 @@ void setup() {
       ENCRYPTOFFSET("0x1DFE60C")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov w0 #0
+      ENCRYPTHEX("00 00 A0 E3 1E FF 2F E1") // mov w0 #0
     }
   ];
 
@@ -88,7 +88,7 @@ void setup() {
       ENCRYPTOFFSET("0x1DFE828")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+      ENCRYPTHEX("00 00 A0 E3 1E FF 2F E1") // mov s0 #0
     }
   ];
 
@@ -118,7 +118,7 @@ void setup() {
       ENCRYPTOFFSET("0x1DE09E4")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+      ENCRYPTHEX("00 00 A0 E3 1E FF 2F E1") // mov s0 #0
     }
   ];
 
@@ -148,7 +148,7 @@ void setup() {
       ENCRYPTOFFSET("0x1DE0A28")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+      ENCRYPTHEX("00 00 A0 E3 1E FF 2F E1") // mov s0 #0
     }
   ];
 
