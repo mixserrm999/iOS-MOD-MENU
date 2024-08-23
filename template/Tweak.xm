@@ -52,123 +52,136 @@ void setup() {
   
 
   // Offset Switch with one patch
-  [switches addOffsetSwitch:NSSENCRYPT("attackRateValue") // bool
-    description:NSSENCRYPT("000000000")
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern") // 
+    description:NSSENCRYPT("mov_w0_#0")
     offsets: {
-      ENCRYPTOFFSET("0x2370BE0")
+      ENCRYPTOFFSET("0x1DFE60C")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov w0 #0
     }
   ];
-  [switches addOffsetSwitch:NSSENCRYPT("levelAtkAddRate_2")
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern")
+    description:NSSENCRYPT("ret")
+    offsets: {
+      ENCRYPTOFFSET("0x1DFE60C")
+    }
+    bytes: {
+      ENCRYPTHEX("C0 03 5F D6") // ret
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern")
+    description:NSSENCRYPT("NOP")
+    offsets: {
+      ENCRYPTOFFSET("0x1DFE60C")
+    }
+    bytes: {
+      ENCRYPTHEX("1F 20 03 D5") // NOP
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern")
+    description:NSSENCRYPT("mov_w0_#0")
+    offsets: {
+      ENCRYPTOFFSET("0x1DFE828")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern")
+    description:NSSENCRYPT("ret")
+    offsets: {
+      ENCRYPTOFFSET("0x1DFE828")
+    }
+    bytes: {
+      ENCRYPTHEX("C0 03 5F D6") // ret
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern")
+    description:NSSENCRYPT("NOP")
+    offsets: {
+      ENCRYPTOFFSET("0x1DFE828")
+    }
+    bytes: {
+      ENCRYPTHEX("1F 20 03 D5") // NOP
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern_shooter")
+    description:NSSENCRYPT("mov_w0_#0")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE09E4")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern_shooter")
+    description:NSSENCRYPT("ret")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE09E4")
+    }
+    bytes: {
+      ENCRYPTHEX("C0 03 5F D6") // ret
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcRecoilPattern_shooter")
+    description:NSSENCRYPT("NOP")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE09E4")
+    }
+    bytes: {
+      ENCRYPTHEX("1F 20 03 D5") // NOP
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern_shooter")
+    description:NSSENCRYPT("mov_w0_#0")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE0A28")
+    }
+    bytes: {
+      ENCRYPTHEX("00 00 80 52 C0 03 5F D6") // mov s0 #0
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern_shooter")
+    description:NSSENCRYPT("ret")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE0A28")
+    }
+    bytes: {
+      ENCRYPTHEX("C0 03 5F D6") // ret
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("CalcSpreadPattern_shooter")
+    description:NSSENCRYPT("NOP")
+    offsets: {
+      ENCRYPTOFFSET("0x1DE0A28")
+    }
+    bytes: {
+      ENCRYPTHEX("1F 20 03 D5") // NOP
+    }
+  ];
+
+  [switches addOffsetSwitch:NSSENCRYPT("show")
     description:NSSENCRYPT("0000000000000000")
     offsets: {
-      ENCRYPTOFFSET("0x2370DCC")
+      ENCRYPTOFFSET("0x1DF5090")
     }
     bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
+      ENCRYPTHEX("20 00 80 52 C0 03 5F D6") // mov w0 #1
     }
   ];
-  [switches addOffsetSwitch:NSSENCRYPT("levelDefHpAddRate")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x2371384")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("tempLevelAtkAddRate_1")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x2372CF4")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("tempLevelDefHpAddRate")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x237341C")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("tempLevelAtkAddRate_2")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x2371750")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("levelAtkAddRate_1")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x23716B4")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("healthRateValue")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x2372B18")
-    }
-    bytes: {
-      ENCRYPTHEX("00 00 80 52 C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("get_movespeed")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x1748948")
-    }
-    bytes: {
-      ENCRYPTHEX("00 90 22 1E C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("attackTime")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x1EC5CBC")
-    }
-    bytes: {
-      ENCRYPTHEX("E0 03 27 1E C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("attackTime")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x1EC5CBC")
-    }
-    bytes: {
-      ENCRYPTHEX("00 F0 27 1E C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("get_AttackTimeDiv 0")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x1731494")
-    }
-    bytes: {
-      ENCRYPTHEX("E0 03 27 1E C0 03 5F D6")
-    }
-  ];
-  [switches addOffsetSwitch:NSSENCRYPT("get_AttackTimeDiv 10")
-    description:NSSENCRYPT("0000000000000000")
-    offsets: {
-      ENCRYPTOFFSET("0x1731494")
-    }
-    bytes: {
-      ENCRYPTHEX("00 90 24 1E C0 03 5F D6")
-    }
-  ];
+  /*
   [switches addOffsetSwitch:NSSENCRYPT(" percent attack")
     description:NSSENCRYPT("0000000000000000")
     offsets: {
@@ -205,6 +218,7 @@ void setup() {
       ENCRYPTHEX("00 90 22 1E C0 03 5F D6")
     }
   ];
+  */
 
   // show and copy //
   /*
